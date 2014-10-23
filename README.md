@@ -9,3 +9,5 @@ File name has meaning and mimic grunt task name. For example if _build-widget.js
 
 Default tasks configuration info stored in tasks/options folder. Default tasks configuration overriding in Gruntfile.js.
 
+Gruntfile.js - well formed Gruntfile injected to widget root.
+

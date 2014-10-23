@@ -23,30 +23,9 @@ module.exports = function (grunt) {
     // Project configuration. Extend predefined
     grunt.initConfig(_(loadConfig('tasks/options'), {
         // Metadata.
-        pkg: grunt.file.readJSON('package.json'),
-
-        connect: {
-            server: {
-                options: {
-                    hostname: 'localhost',
-                    port: 9000,
-                    livereload: true
-                }
-            }
-        },
-        watch: {
-            options: {
-                livereload: true
-            },
-            target: {
-                files: ['index.html', 'styles/**/*.css', 'scripts/**/*.js']
-            }
-        }
+        pkg: grunt.file.readJSON('package.json')
     }));
-
-  // Default task.
-  grunt.registerTask('default', ['connect', 'watch']);
-
+    // test task - run task from exported
     grunt.registerTask('hello', function () {
         grunt.task.run('example');
     });
