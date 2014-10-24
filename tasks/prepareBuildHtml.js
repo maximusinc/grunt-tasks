@@ -1,5 +1,5 @@
 module.exports = function (grunt) {
-    grunt.registerTask('buildhtml', 'concat and minify style, scripts and inline him, convert images to base64', function (path) {
+    grunt.registerTask('prepareBuildHtml', 'concat and minify style, scripts and inline him, convert images to base64', function (path) {
         var filename,
             distFolder = grunt.config('distFolder'),
             smoosherFiles = {};
@@ -13,6 +13,6 @@ module.exports = function (grunt) {
             smoosherFiles[distHtml] = distHtml;
             grunt.config('smoosher.all.files', smoosherFiles);
         }
-        grunt.task.run([ 'copy:dist', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'prepareImageEmbed', 'imageEmbed:dist', 'smoosher:all', 'clearDist']);
+        // grunt.task.run([ 'copy:dist', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'prepareImageEmbed', 'imageEmbed:dist', 'smoosher:all', 'clearDist']);
     });
 };

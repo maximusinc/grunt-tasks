@@ -3,6 +3,5 @@ module.exports = function(grunt) {
   		var config = grunt.config('example');
     	grunt.log.writeln("Hello world!");
     	console.log(config);
-    	grunt.task.run('test');
   	});
 };

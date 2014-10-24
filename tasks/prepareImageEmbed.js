@@ -1,4 +1,4 @@
-module.exropts = function (grunt) {
+module.exports = function (grunt) {
 	'use strict';
 	grunt.registerTask('prepareImageEmbed', function () {
         var concat = grunt.config('concat');

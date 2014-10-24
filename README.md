@@ -11,3 +11,8 @@ Default tasks configuration info stored in tasks/options folder. Default tasks c
 
 Gruntfile.js - well formed Gruntfile injected to widget root.
 
+### List of available tasks: ###
+
+- __clearDist__ - clear _dist_ folder from concat sources
+- __prepareBuildHtml__ - update configuration info for __copy__, __useminPrepare__, __usemin__, __smoosher__ tasks according task filepath
+- __prepareImageEmbed__ - update configuration info for __imageEmbed__ task, set src and dest targets

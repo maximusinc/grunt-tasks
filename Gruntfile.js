@@ -29,4 +29,8 @@ module.exports = function (grunt) {
     grunt.registerTask('hello', function () {
         grunt.task.run('example');
     });
+
+    grunt.registerTask('buildHtml', function () {
+        grunt.task.run([ 'prepareBuildHtml', 'copy:dist', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'prepareImageEmbed', 'imageEmbed:dist', 'smoosher:all', 'clearDist']);
+    });
 };
