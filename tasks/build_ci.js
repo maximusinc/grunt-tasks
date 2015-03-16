@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
 	grunt.registerTask('build_ci',function (patch,minor,major) {
-    grunt.task.run('readFeature');
+    grunt.task.run(['convert:xml2json', 'readFeatureJson']);
     grunt.file.delete( grunt.config.get('distFolder') );
     grunt.file.mkdir( grunt.config.get('distFolder') );
     var version,
