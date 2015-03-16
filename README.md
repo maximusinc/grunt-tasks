@@ -12,7 +12,7 @@ git clone git@github.com:maximusinc/grunt-tasks.git
 	- Gruntfile.js
 	- start-package.json
 
-- Rename start-package.json to package.json
+- Rename _start-package.json_ to _package.json_
 
 - Execute command:
 ```shell
