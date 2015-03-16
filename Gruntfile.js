@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = function (grunt) {
-    var _ = grunt.util._.extend,
+    var TASK_FOLDER = 'node_modules/roox-grunt-tasks',
+        _ = grunt.util._.extend,
         // utiltity function -
         loadConfig = function (path) {
             var object = {};
@@ -18,19 +19,11 @@ module.exports = function (grunt) {
     // Show elapsed time at the end
     require('time-grunt')(grunt);
     // load tasks from folder
-    grunt.loadTasks('tasks');
+    grunt.loadTasks(TASK_FOLDER + '/tasks');
 
     // Project configuration. Extend predefined
-    grunt.initConfig(_(loadConfig('tasks/options'), {
+    grunt.initConfig(_(loadConfig(TASK_FOLDER + '/tasks/options'), {
         // Metadata.
         pkg: grunt.file.readJSON('package.json')
     }));
-    // test task - run task from exported
-    grunt.registerTask('hello', function () {
-        grunt.task.run('example');
-    });
-
-    grunt.registerTask('buildHtml', function () {
-        grunt.task.run([ 'prepareBuildHtml', 'copy:dist', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'prepareImageEmbed', 'imageEmbed:dist', 'smoosher:all', 'clearDist']);
-    });
 };
