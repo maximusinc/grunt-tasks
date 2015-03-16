@@ -11,6 +11,7 @@ git clone git@github.com:maximusinc/grunt-tasks.git
 - Copy next files to you project folder
 	- Gruntfile.js
 	- .gitignore
+	- .jshintrc
 	- start-package.json
 
 - Rename _start-package.json_ to _package.json_. Add package name and package version.
