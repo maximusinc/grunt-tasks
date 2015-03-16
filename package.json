@@ -1,6 +1,6 @@
 {
   "name": "roox-grunt-tasks",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "git@github.com:maximusinc/grunt-tasks.git"
