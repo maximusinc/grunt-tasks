@@ -13,7 +13,7 @@ git clone git@github.com:maximusinc/grunt-tasks.git
 	- .gitignore
 	- start-package.json
 
-- Rename _start-package.json_ to _package.json_
+- Rename _start-package.json_ to _package.json_. Add package name and package version.
 
 - Execute command:
 ```shell
