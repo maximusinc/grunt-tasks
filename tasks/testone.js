@@ -1,4 +1,12 @@
 module.exports = function (grunt){
+    var parseXML = require('node-xml-lite').parseString;
+    var getUnique = function (arr) {
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+        // usage example:
+        return arr.filter( onlyUnique );
+    }
     /**
      * Try search hack files for feature
      * @param  {String} featureName - feature to lookup hacks scripts

@@ -1,5 +1,7 @@
 module.exports = function (grunt){
 	var parseXML = require('node-xml-lite').parseString;
+	var parseString = require('xml2js').parseString,
+        fs = require('fs');
 	var parseScriptItem = function (distPath, item) {
         var res = [];
         item['script'] && item['script'].forEach(function (o) {

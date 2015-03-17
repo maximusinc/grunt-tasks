@@ -1,4 +1,6 @@
 module.exports = function (grunt){
+    var xmlbuilder = require('xmlbuilder');
+    var parseXML = require('node-xml-lite').parseString;
 	 /**
      * Search all test-results for features and concat info
      */
