@@ -19,7 +19,9 @@ module.exports = function (grunt) {
     // Show elapsed time at the end
     require('time-grunt')(grunt);
     // load tasks from folder
-    grunt.loadTasks(TASK_FOLDER + '/tasks');
+    if ( grunt.file.isDir(TASK_FOLDER + '/tasks') ) {
+        grunt.loadTasks(TASK_FOLDER + '/tasks');
+    }
 
     // Project configuration. Extend predefined
     grunt.initConfig(_(loadConfig(TASK_FOLDER + '/tasks/options'), {
