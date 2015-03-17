@@ -16,6 +16,7 @@
     "karma-jasmine": "~0.2.0",
     "karma-phantomjs-launcher": "~0.1.2",
     "karma-junit-reporter": "~0.2.1",
+    "jshint-junit-reporter": "0.0.6",
     "roox-grunt-tasks": "git+https://maximusinc@github.com/maximusinc/grunt-tasks.git#0.0.9"
   },
   "peerDependencies": {

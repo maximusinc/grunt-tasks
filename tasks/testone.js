@@ -1,4 +1,57 @@
 module.exports = function (grunt){
+    /**
+     * Try search hack files for feature
+     * @param  {String} featureName - feature to lookup hacks scripts
+     * @return {Array|Undefined} - files or undefined
+     */
+    var serchHackFiles = function (featureName) {
+        var hackListPath = 'test/spec-utils/hacks/list.json';
+        if (!grunt.file.isFile(hackListPath)) return;
+        var hacks = grunt.file.readJSON(hackListPath);
+        console.log(featureName);
+        if(!hacks[featureName] || !hacks[featureName].length) return;
+        return hacks[featureName];
+    };
+
+    var readWidgetDeps = function (distPath) {
+        var result = [] ,
+        docXml,
+        getXmlDoc = function (distPath) {
+            var aux = distPath.split('/'), featurePath, xml, docXml;
+            aux.pop();
+            aux.pop();
+            aux.push('feature.xml');
+            featurePath = aux.join('/');
+            xml = grunt.file.read(featurePath);
+            return parseXML(xml);
+        },
+        recursDeps = function (featureName) {
+            var features = grunt.config('features'), distPath, docXml;
+            if (grunt.file.isFile('featurecache.json')) {
+                features = grunt.file.readJSON('featurecache.json');
+            }
+            if (features[featureName] && features[featureName].length) {
+                distPath = features[featureName][0];
+                result.push(distPath);
+                docXml = getXmlDoc(distPath);
+                docXml.childs.forEach(function (child) {
+                    if (child.name === 'dependency' && child.childs.length ) {
+                        recursDeps(child.childs[0]);
+                    }
+                });
+            }
+        };
+        result.push(distPath);
+        docXml = getXmlDoc(distPath);
+        docXml.childs.forEach(function (child) {
+            if (child.name === 'dependency' && child.childs.length) {
+                recursDeps(child.childs[0]);
+            }
+        })
+        return getUnique(result.reverse());
+        // return result;
+    };
+
 	/**
      * Test one feature
      * Search feature path
