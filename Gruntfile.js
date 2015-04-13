@@ -14,10 +14,10 @@ module.exports = function (grunt) {
             });
             return object;
         };
-    // Load all grunt tasks
-    require('load-grunt-tasks')(grunt);
-    // Show elapsed time at the end
+        // Show elapsed time at the end
     require('time-grunt')(grunt);
+    // Load all grunt tasks
+    require('load-grunt-tasks')(grunt, {config: TASK_FOLDER+'/package'});
     // load tasks from folder
     if ( grunt.file.isDir(TASK_FOLDER + '/tasks') ) {
         grunt.loadTasks(TASK_FOLDER + '/tasks');
