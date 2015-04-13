@@ -1,6 +1,6 @@
 {
   "name": "rx-grunt-tasks",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:maximusinc/grunt-tasks.git"
@@ -13,7 +13,7 @@
     "grunt-convert": "~0.1.10",
     "grunt-contrib-jshint": "~0.7.0",
     "grunt-contrib-uglify": "~0.3.0",
-    "load-grunt-tasks": "~3.0.0",
+    "load-grunt-tasks": "~0.2.0",
     "xml2js": "^0.4.4",
     "node-xml-lite": "0.0.3",
     "xmlbuilder": "~2.4.4",
