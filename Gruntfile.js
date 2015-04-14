@@ -7,9 +7,9 @@ module.exports = function (grunt) {
         loadConfig = function (path) {
             var object = {};
             var key;
-            grunt.file.expand(path + '/*.js').forEach(function(filePath) {
+            grunt.file.expand(path + '/*.js').forEach(function (filePath) {
                 var option = filePath.split('/').pop();
-                key = option.replace(/\.js$/,'');
+                key = option.replace(/\.js$/, '');
                 object[key] = require('./' + filePath);
             });
             return object;
@@ -19,7 +19,7 @@ module.exports = function (grunt) {
     // Load all grunt tasks
     require('load-grunt-tasks')(grunt, {config: TASK_FOLDER + '/package'});
     // load tasks from folder
-    if ( grunt.file.isDir(TASK_FOLDER + '/tasks') ) {
+    if (grunt.file.isDir(TASK_FOLDER + '/tasks')) {
         grunt.loadTasks(TASK_FOLDER + '/tasks');
     }
 
