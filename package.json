@@ -1,11 +1,11 @@
 {
   "name": "rx-grunt-tasks",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "repository": {
     "type": "git",
     "url": "git@github.com:maximusinc/grunt-tasks.git"
   },
-  "main": "Gruntfile.js",
+  "main": "init.js",
   "peerDependencies": {
     "grunt": "^0.4.5",
     "time-grunt": "~0.1.1",
