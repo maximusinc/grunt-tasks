@@ -1,4 +1,5 @@
 (function () {
+	'use strict';
 	var init = function init (grunt) {
 		var TASK_FOLDER = __dirname + '/tasks',
 	        _ = grunt.util._.extend,
@@ -7,18 +8,19 @@
 	            var object = {};
 	            var key;
 	            grunt.file.expand(path + '/*.js').forEach(function (filePath) {
+	            	console.info(filePath);
 	                var option = filePath.split('/').pop();
 	                key = option.replace(/\.js$/, '');
-	                object[key] = require('./' + filePath);
+	                object[key] = require(filePath);
 	            });
 	            return object;
 	        };
-	    require('load-grunt-tasks')(grunt, {config: TASK_FOLDER + '/package'});
+	    require('load-grunt-tasks')(grunt, {config: __dirname + '/package'});
 	    // load tasks from folder
-	    if (grunt.file.isDir(TASK_FOLDER + '/tasks')) {
-	        grunt.loadTasks(TASK_FOLDER + '/tasks');
+	    if (grunt.file.isDir(TASK_FOLDER)) {
+	        grunt.loadTasks(TASK_FOLDER);
 	    }
-	    init.config = loadConfig(TASK_FOLDER + '/options');
+	    return loadConfig( TASK_FOLDER + '/options');
 	};
 
 	module.exports = init;
