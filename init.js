@@ -8,7 +8,6 @@
 	            var object = {};
 	            var key;
 	            grunt.file.expand(path + '/*.js').forEach(function (filePath) {
-	            	console.info(filePath);
 	                var option = filePath.split('/').pop();
 	                key = option.replace(/\.js$/, '');
 	                object[key] = require(filePath);
