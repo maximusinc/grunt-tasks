@@ -41,3 +41,4 @@ Gruntfile.js - well formed Gruntfile injected to widget root.
 - __clearDist__ - clear _dist_ folder from concat sources
 - __prepareBuildHtml__ - update configuration info for __copy__, __useminPrepare__, __usemin__, __smoosher__ tasks according task filepath
 - __prepareImageEmbed__ - update configuration info for __imageEmbed__ task, set src and dest targets
+- __bower_install__ - search local bower.json file and try to resolve dependencies, use _rx-bower-upload_ npm package
