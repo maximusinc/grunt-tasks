@@ -1,4 +1,4 @@
-## Roox Grunt Tasks for Widgets ##
+## Rx Grunt Tasks for Widgets ##
 
 ### How to start ###
 
