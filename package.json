@@ -1,6 +1,6 @@
 {
   "name": "rx-grunt-tasks",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "repository": {
     "type": "git",
     "url": "git@github.com:maximusinc/grunt-tasks.git"
@@ -22,10 +22,6 @@
     "xml2js": "^0.4.4",
     "node-xml-lite": "0.0.3",
     "xmlbuilder": "~4.1.0",
-    "grunt-karma": "~0.8.2",
-    "karma": "~0.13.0",
-    "karma-jasmine": "~0.2.0",
-    "karma-junit-reporter": "~0.2.1",
     "jshint-junit-reporter": "0.0.6",
     "grunt-git": "~0.2.8",
     "rx-bower-upload": "~0.1.5"
