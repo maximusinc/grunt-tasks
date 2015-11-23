@@ -14,6 +14,7 @@ module.exports = function (processor) {
 		grunt.config.set('browserify.make.files', files);
         var script = '<script type="text/javascript" src="' + block.asset + '" ></script>';
         var result = content.replace(blockLine, script);
+        grunt.task.run(['browserify:make']);
 		return result;
 	});
 };

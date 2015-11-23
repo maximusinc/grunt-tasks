@@ -25,5 +25,6 @@ module.exports = function (grunt){
             //grunt.task.run('dependency:show_feature:'+featureName);
         });
         grunt.config('widget.deps.features', getUnique(arrFeatures));
+        grunt.task.run('cache_widget_features');
     });
 };

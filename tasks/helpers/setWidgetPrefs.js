@@ -16,7 +16,7 @@ module.exports = function (grunt, docItem) {
             for(var f in dustjsFiles) {
                 widgetTemplates.push(f);
             }
-        } else if (child.name === 'Locales' && child.childs.length) {
+        } else if (child.name === 'Locales' && child.childs.length && !Object.keys(widgetLocales).length) {
             var locales = {};
             child.childs.forEach(function (child) {
                 locales[child.attrib['lang']] = grunt.file.readJSON( widgetFolder + child.attrib['messages']);
