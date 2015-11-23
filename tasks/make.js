@@ -11,7 +11,7 @@ module.exports = function (grunt){
         } else if (target === 'features') {
             grunt.task.run(['maker:features', 'concat']);
         } else if (target === 'widget') {
-            grunt.task.run(['maker:widget']);
+            grunt.task.run(['set-cached-features', 'set-cached-concat', 'maker:widget']);
         }
     });
 };

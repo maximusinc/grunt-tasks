@@ -1,5 +1,6 @@
 module.exports = function (grunt, docItem) {
     var widgetConfig = grunt.config('widget'),
+        widgetFolder = grunt.config.get('widgetFolder'),
         dustjsFiles = grunt.config.get('dustjs.compile.files'),
         widgetFeatures = widgetConfig.deps.features || [],
         widgetTemplates = widgetConfig.deps.templates || [],
@@ -18,7 +19,7 @@ module.exports = function (grunt, docItem) {
         } else if (child.name === 'Locales' && child.childs.length) {
             var locales = {};
             child.childs.forEach(function (child) {
-                locales[child.attrib['lang']] = grunt.file.readJSON(child.attrib['messages']);
+                locales[child.attrib['lang']] = grunt.file.readJSON( widgetFolder + child.attrib['messages']);
             });
             widgetLocales.push(locales);
         }

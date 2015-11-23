@@ -3,6 +3,9 @@ module.exports = function (grunt){
     var buildWidget = require('./helpers/buildWidget');
     var buildFeature = require('./helpers/buildFeature');
 	grunt.registerMultiTask('maker', function (target) {
+        var beforeMakerTasks = grunt.config.get('beforeMakerTasks') || [];
+        var afterMakerTasks = grunt.config.get('afterMakerTasks') || [];
+        grunt.task.run(beforeMakerTasks);
         grunt.task.current.files.forEach(function (file) {
             var src = file.src,
                 srcFiles = grunt.file.expand(src);
@@ -15,10 +18,9 @@ module.exports = function (grunt){
                 } else if (grunt.task.current.target === 'widget') {
                     buildWidget(grunt, xml);
                     grunt.task.run(['resolveFeatures', 'widget']);
-//                    grunt.task.run(['jst']);
                 }
             });
         });
-        grunt.task.run(['cache_features', 'cache_concat']);
+        grunt.task.run(afterMakerTasks);
     });
 };
