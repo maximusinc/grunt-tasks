@@ -1,6 +1,6 @@
 {
   "name": "rx-grunt-tasks",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "repository": {
     "type": "git",
     "url": "git@github.com:maximusinc/grunt-tasks.git"
@@ -9,7 +9,6 @@
   "dependencies": {
     "node-xml-lite": "0.0.3",
     "xmlbuilder": "~4.1.0",
-    "rx-bower-upload": "~0.1.5",
     "xml2js": "^0.4.6"
   }
 }
