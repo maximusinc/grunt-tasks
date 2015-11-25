@@ -3,6 +3,7 @@ module.exports = function (grunt){
     var buildWidget = require('./helpers/buildWidget');
     var buildFeature = require('./helpers/buildFeature');
 	grunt.registerMultiTask('maker', function (target) {
+        target = target || grunt.task.current.target;
         var beforeMakerTasks = grunt.config.get('beforeMakerTasks.'+ target) || [];
         var afterMakerTasks = grunt.config.get('afterMakerTasks.'+ target) || [];
         grunt.task.run(beforeMakerTasks);
