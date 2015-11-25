@@ -7,9 +7,9 @@ module.exports = function (grunt){
 	 */
 	grunt.registerTask('make', function (target) {
         if (!target) {
-            grunt.task.run(['maker:features', 'concat', 'maker:widget']);
+            grunt.task.run(['make:features', 'maker:widget']);
         } else if (target === 'features') {
-            grunt.task.run(['maker:features', 'concat']);
+            grunt.task.run(['maker:features', 'concat', 'cache_concat','cache_features']);
         } else if (target === 'widget') {
             grunt.task.run(['set-cached-features', 'set-cached-concat', 'maker:widget']);
         }

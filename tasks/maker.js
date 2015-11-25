@@ -3,8 +3,8 @@ module.exports = function (grunt){
     var buildWidget = require('./helpers/buildWidget');
     var buildFeature = require('./helpers/buildFeature');
 	grunt.registerMultiTask('maker', function (target) {
-        var beforeMakerTasks = grunt.config.get('beforeMakerTasks') || [];
-        var afterMakerTasks = grunt.config.get('afterMakerTasks') || [];
+        var beforeMakerTasks = grunt.config.get('beforeMakerTasks.'+ target) || [];
+        var afterMakerTasks = grunt.config.get('afterMakerTasks.'+ target) || [];
         grunt.task.run(beforeMakerTasks);
         grunt.task.current.files.forEach(function (file) {
             var src = file.src,

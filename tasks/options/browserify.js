@@ -4,10 +4,12 @@ module.exports = {
             'js/dist.js': ['js/main.js']
         }
     },
+    prod: {
+        options: {
+            debug: false
+        }
+    },
     dev: {
-        files: {
-            '.tmp/js/dist.js': ['js/main.js']
-        },
         options: {
             debug: true
         }

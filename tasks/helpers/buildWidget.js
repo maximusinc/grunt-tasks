@@ -1,4 +1,5 @@
-module.exports = function (grunt, descriptor) {
+module.exports = function (grunt, descriptor, target) {
+    target = target || 'make';
     var config = require('./config');
 	var parseXML = require('node-xml-lite').parseString;
     var widgetFolder = grunt.config.get('widgetFolder');
@@ -11,6 +12,7 @@ module.exports = function (grunt, descriptor) {
         if (child.name === 'Content') {
             widgetBody = grunt.config('widget.body') || '';
             if (child.attrib && child.attrib.href) {
+                grunt.config.set('widget.bodyHref', child.attrib.href);
                  widgetBody += grunt.file.read( widgetFolder + child.attrib.href);
             } else if (child.childs && child.childs[0]) {
                 widgetBody += child.childs[0];
@@ -18,7 +20,7 @@ module.exports = function (grunt, descriptor) {
                 grunt.log.errorlns('Widget Has no body, check .xml Content');
             }
             grunt.file.write( destPath + config.cacheBody, widgetBody );
-            grunt.task.run(['processhtml:make', 'writeBody']);
+            grunt.task.run(['processhtml:'+target, 'writeBody']);
 
         } else if (child.name === 'ModulePrefs') {
             setWidgetPrefs(grunt, child);

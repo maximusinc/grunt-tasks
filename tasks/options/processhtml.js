@@ -6,5 +6,15 @@ module.exports = {
         files: {
             '<%= destPath %>.tmp/main.html': ['<%= destPath %>.tmp/content-body.html']
         }
+    },
+    dev: {
+        files: {
+            '<%= destPath %>.tmp/main.html': ['<%= destPath %>.tmp/content-body.html']
+        }
+    },
+    prod: {
+        files: {
+            '<%= destPath %>.tmp/main.html': ['<%= destPath %>.tmp/content-body.html']
+        }
     }
 };
