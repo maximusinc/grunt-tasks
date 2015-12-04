@@ -4,7 +4,8 @@
  */
 module.exports = function (grunt){
     var buildWidget = require('./helpers/buildWidget');
-	 grunt.registerTask('build', 'build widget' ,function (target) {
+	grunt.registerTask('build', 'build widget' ,function (target) {
+        grunt.config.set('wbuild.number', grunt.option('number'));
         var xml = grunt.file.read( grunt.config.get('widgetFolder') + grunt.config.get('widgetDescriptor') );
         var destConf = grunt.config.get('wbuild.'+target);
         if (target === 'dev') {

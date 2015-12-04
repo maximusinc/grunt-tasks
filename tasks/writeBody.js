@@ -22,7 +22,7 @@ module.exports = function (grunt){
                         descriptorTo: destPath + widgetDescriptor,
                         fromBodyHtml: destPath + config.body,
                         toBodyHtml: destPath + bodyHref
-                    } );
+                    });
                 } else {
                     // for dev - just copy i18n supported in debug=true mode
                     grunt.file.copy( destPath + config.body, destPath + bodyHref);
