@@ -32,8 +32,8 @@ module.exports = function (grunt, params){
 	}
 	grunt.file.write(params.toBodyHtml, i18ncript + html );
 	grunt.file.copy(params.toBodyHtml, destPath + config.inlineBody );
-	grunt.config.set('inline.prod.src', destPath + config.inlineBody);
-    grunt.config.set('inline.prod.dest', destPath + bodyHref);
-    grunt.task.run(['inline:prod', 'clear-inline-main']);
+	grunt.config.set('rxinline.prod.src', destPath + config.inlineBody);
+    grunt.config.set('rxinline.prod.dest', destPath + bodyHref);
+    grunt.task.run(['rxinline:prod']);
 	grunt.file.write(params.descriptorTo, xml );
 };
