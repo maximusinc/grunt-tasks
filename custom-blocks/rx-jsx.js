@@ -15,7 +15,6 @@ module.exports = function (processor) {
 		grunt.config.set('browserify.'+target+'.files', files);
         var script = '<script type="text/javascript" src="' + block.asset + '" ></script>';
         var result = content.replace(blockLine, script);
-        console.log('wwww', target);
         grunt.task.run(['browserify:'+target]);
 		return result;
 	});

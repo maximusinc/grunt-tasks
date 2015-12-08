@@ -4,5 +4,6 @@ module.exports = {
 	cacheConcatPath: '.grunt-cache/concat.json',
 	cacheBody: '.tmp/content-body.html',
 	body: '.tmp/main.html',
+	inlineBody: '__main.html',
 	destTmp: '.tmp'
 };

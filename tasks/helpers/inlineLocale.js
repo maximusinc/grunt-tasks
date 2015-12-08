@@ -4,6 +4,9 @@ module.exports = function (grunt, params){
 	var parser = new xml2js.Parser();
 	var builder = new xml2js.Builder();
 
+	var config = require('./config');
+	var bodyHref = grunt.config.get('widget.bodyHref');
+	var destPath = grunt.config.get('destPath');
 	var locs = grunt.config('widget.deps.locales');
 	var features = grunt.config('widget.deps.features');
 	var number = grunt.config('wbuild.number');
@@ -28,5 +31,9 @@ module.exports = function (grunt, params){
 		});
 	}
 	grunt.file.write(params.toBodyHtml, i18ncript + html );
+	grunt.file.copy(params.toBodyHtml, destPath + config.inlineBody );
+	grunt.config.set('inline.prod.src', destPath + config.inlineBody);
+    grunt.config.set('inline.prod.dest', destPath + bodyHref);
+    grunt.task.run(['inline:prod', 'clear-inline-main']);
 	grunt.file.write(params.descriptorTo, xml );
 };
