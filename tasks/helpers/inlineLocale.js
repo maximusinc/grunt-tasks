@@ -34,6 +34,6 @@ module.exports = function (grunt, params){
 	grunt.file.copy(params.toBodyHtml, destPath + config.inlineBody );
 	grunt.config.set('rxinline.prod.src', destPath + config.inlineBody);
     grunt.config.set('rxinline.prod.dest', destPath + bodyHref);
-    grunt.task.run(['rxinline:prod']);
+    grunt.task.run(['rxinline:prod', 'clear-inline-main']);
 	grunt.file.write(params.descriptorTo, xml );
 };
