@@ -20,7 +20,6 @@ module.exports = {
         }
     },
     options: {
-        transform: [require('grunt-react').browserify],
-        watch: true
+        transform: [ ["babelify", {presets: ["es2015", "react"]}] ]
     }
 };
