@@ -1,0 +1,59 @@
+<doctype html>
+<html>
+	<head>
+        <meta charset="UTF-8">
+		<script>widgetUrls=window['widgetUrls']||[];widgetUrls[<%= mid %>]='http://localhost/widgets/<%= descriptor %>?mid=<%= mid %>&lang=ru';baseUrls=window['baseUrls']||[];baseUrls[0]='https://localhost/widgets/<%= descriptor %>';</script>
+		<!-- WRS specific -->
+		<%
+			print('<script type="text/javascript"> window.widgetUrls=[]; window.widgetUrls[' + mid + '] = document.location.href;</script>');
+		%>
+		<!-- -->
+		<!-- build:js dist/wrs-features.js -->
+		<% if (deps.features && deps.features.length) {
+			for (var featureIndex in deps.features) {
+				print('<script type="text/javascript" src="../' + deps.features[featureIndex] + '" ></script>\n');
+			}
+		} %>
+		<!-- Widget templates -->
+		<% if (false) {
+            print('<script type="text/javascript" src=".tmp/dust/templates.js" ></script>\n');
+		} %>
+		<!-- Widget templates -->
+		<!-- Widget locales -->
+		<% if (deps.locales && deps.locales.length) {
+			var locales = [];
+			for (var locIndex in deps.locales) {
+				locales[locIndex] = 'com.rooxteam.i18n.setLocales(' + JSON.stringify(deps.locales[locIndex]) + ', '+ mid +')';
+				if (!localeFilePath) {
+					print('<script type="text/javascript">com.rooxteam.i18n.setLocales(' + JSON.stringify(deps.locales[locIndex]) + ', '+ mid +')</script>\n');
+				}
+			}
+			if (localeFilePath) {
+				grunt.file.write(localeFilePath, locales.join(';'));
+				print('<script src="'+localeFilePath+'"></script>\n');
+			}
+		} %>
+		<!-- Widget locales -->
+		<script>gadgets.Prefs.setMessages_({}); gadgets.Prefs.setDefaultPrefs_({"serviceId":""});gadgets.io.preloaded_=[];</script>
+		<script>gadgets.config.init(<%= config %>);</script>
+
+<!-- endbuild -->
+    <style>
+        .dev-widget-wrapper {
+            /* width: 700px;
+            margin: 0 auto; */
+        }
+    </style>
+	</head>
+	<body>
+	    <%= body %>
+	</body>
+	<script>
+        gadgets.util.runOnLoadHandlers(<%= mid %>);
+        openbank.appDispatcher.dispatch({
+            actionType: "widgets:cards-list:row-clicked",
+            data: {
+                cardId: 2051341
+            }
+        }); </script>
+</html>
