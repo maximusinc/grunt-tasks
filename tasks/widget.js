@@ -18,9 +18,9 @@ module.exports = function (grunt){
         }}));
 
     var message = 'Generated \'' + conf.dest + '\' from \'' +
-                    (conf.src || 'widget-default.tmpl' ) + '\' using \'' +
+                    (conf.src && grunt.file.isFile(conf.src) || 'widget-default.tmpl' ) + '\' using \'' +
                     grunt.config.get('widgetFolder') + grunt.config.get('widgetDescriptor') +
-                    ' with ' + (conf.configJson || 'config-default.json');
+                    ' with ' + (conf.configJson && grunt.file.isFile(conf.configJson) || 'config-default.json');
 
 
 
