@@ -4,8 +4,8 @@ module.exports = function (grunt){
     var getDefaultConfig = require('./helpers/getDefaultConfig');
     grunt.registerTask( "widget", "Generate <name>.html depending on configuration", function() {
         var conf = grunt.config('widget'),
-            widgetConfig = conf.configJson ? grunt.file.read(conf.configJson) : getDefaultConfig(grunt),
-            tmpl = conf.src ? grunt.file.read(conf.src) : getDefaultTmpl(grunt);
+            widgetConfig = conf.configJson && grunt.file.isFile(conf.configJson) ? grunt.file.read(conf.configJson) : getDefaultConfig(grunt),
+            tmpl = conf.src && grunt.file.isFile(conf.src) ? grunt.file.read(conf.src) : getDefaultTmpl(grunt);
 
 
         grunt.file.write(conf.dest, grunt.template.process(tmpl, {data: {
