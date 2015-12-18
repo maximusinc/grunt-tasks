@@ -86,7 +86,7 @@
                 "selector":"a,button,.stat-selector"
             }
         },
-        "AUTO_GENERATE_IID":"true3333333",
+        "AUTO_GENERATE_IID":"true",
         "SERVER_ADDRESS":"https://mts2.demo.rooxteam.com/pushreport/",
         "OPERATOR_ID":"MTS",
         "OVER_ACCUMULATE_OPERATION_LIMIT":"3",
