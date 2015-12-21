@@ -38,22 +38,11 @@
 		<script>gadgets.config.init(<%= config %>);</script>
 
 <!-- endbuild -->
-    <style>
-        .dev-widget-wrapper {
-            /* width: 700px;
-            margin: 0 auto; */
-        }
-    </style>
 	</head>
 	<body>
 	    <%= body %>
 	</body>
 	<script>
         gadgets.util.runOnLoadHandlers(<%= mid %>);
-        openbank.appDispatcher.dispatch({
-            actionType: "widgets:cards-list:row-clicked",
-            data: {
-                cardId: 2051341
-            }
-        }); </script>
+    </script>
 </html>

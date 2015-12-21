@@ -6,8 +6,7 @@ module.exports = function (grunt, descriptor, target) {
     var destPath = grunt.config.get('destPath');
 	var setWidgetPrefs = require('./setWidgetPrefs');
     var doc = parseXML(descriptor),
-        widgetConfig = grunt.config('widget'),
-        widgetBody = grunt.config('widget.body') || '';
+        widgetConfig = grunt.config('widget');
     doc.childs.forEach(function (child) {
         if (child.name === 'Content') {
             widgetBody = grunt.config('widget.body') || '';
@@ -19,6 +18,7 @@ module.exports = function (grunt, descriptor, target) {
             } else {
                 grunt.log.errorlns('Widget Has no body, check .xml Content');
             }
+            grunt.config('widget.body', widgetBody);
             grunt.file.write( destPath + config.cacheBody, widgetBody );
             grunt.task.run(['processhtml:'+target, 'writeBody']);
 
