@@ -92,7 +92,7 @@ module.exports = function (grunt){
             grunt.log.error('Specified feature not found in feature list');
             return;
         }
-        if (grunt.file.isDir('test/'+ featureName)) {
+        if (grunt.file.isDir(testsBasePath + featureName)) {
             testFeatureBuilds.forEach(function (item) {
                 if (buildRegExp.test(item)) {
                     var aux = readWidgetDeps(item, featuresBuildCacheJson);
@@ -107,7 +107,7 @@ module.exports = function (grunt){
             includes.push(testsBasePath + featureName + '/*.js');
             grunt.config('karma.unit.options.files', includes);
             grunt.config('karma.unit.options.junitReporter', {
-                outputFile: featureName+'-test-results.xml',
+                outputFile: testsBasePath + featureName+'-test-results.xml',
                 suite: ''
             });
             grunt.task.run('karma');
