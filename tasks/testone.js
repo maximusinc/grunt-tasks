@@ -21,7 +21,7 @@ module.exports = function (grunt){
         return hacks[featureName];
     };
 
-    var readWidgetDeps = function (distPath) {
+    var readWidgetDeps = function (distPath, cachedFeatures) {
         var result = [] ,
         docXml,
         getXmlDoc = function (distPath) {
@@ -30,16 +30,15 @@ module.exports = function (grunt){
             aux.pop();
             aux.push('feature.xml');
             featurePath = aux.join('/');
+            grunt.log.debug('read xml:' + featurePath);
             xml = grunt.file.read(featurePath);
             return parseXML(xml);
         },
         recursDeps = function (featureName) {
             var features = grunt.config('features'), distPath, docXml;
-            if (grunt.file.isFile('featurecache.json')) {
-                features = grunt.file.readJSON('featurecache.json');
-            }
-            if (features[featureName] && features[featureName].length) {
-                distPath = features[featureName][0];
+            if (cachedFeatures[featureName] && cachedFeatures[featureName].length) {
+                distPath = cachedFeatures[featureName][0];
+                grunt.log.debug( 'from ' + featureName + ' include ' + distPath );
                 result.push(distPath);
                 docXml = getXmlDoc(distPath);
                 docXml.childs.forEach(function (child) {
@@ -55,7 +54,7 @@ module.exports = function (grunt){
             if (child.name === 'dependency' && child.childs.length) {
                 recursDeps(child.childs[0]);
             }
-        })
+        });
         return getUnique(result.reverse());
         // return result;
     };
@@ -67,6 +66,15 @@ module.exports = function (grunt){
      * @param  {String} buildTarget - optional, build to test gadget|container - default is gadget
      */
     grunt.registerTask('testone', function (featureName, buildTarget) {
+        var taskConfig = grunt.config(this.name),
+            featuresBuildCacheJson,
+            cachePath = taskConfig && taskConfig.cachePath || './.grunt-cache/features.json',
+            includesBasePath = taskConfig && taskConfig.includesBasePath || '',
+            testsBasePath = taskConfig && taskConfig.testsBasePath || '';
+        if (grunt.file.isFile(cachePath)) {
+            featuresBuildCacheJson = grunt.file.readJSON(cachePath);
+        }
+        grunt.log.debug( includesBasePath );
         buildTarget = buildTarget || 'gadget';
         if (!featureName) {
             grunt.log.error('You must specified feature name');
@@ -87,14 +95,16 @@ module.exports = function (grunt){
         if (grunt.file.isDir('test/'+ featureName)) {
             testFeatureBuilds.forEach(function (item) {
                 if (buildRegExp.test(item)) {
-                    var aux = readWidgetDeps(item);
+                    var aux = readWidgetDeps(item, featuresBuildCacheJson);
+                    grunt.log.debug("feature: " + item);
+                    grunt.log.debug("featureDeps: " + JSON.stringify(aux));
                     aux.forEach(function (path) {
-                        includes.push('../' + path);
+                        includes.push((includesBasePath || '../') + path);
                     });
                 }
             });
 
-            includes.push(featureName + '/*.js');
+            includes.push(testsBasePath + featureName + '/*.js');
             grunt.config('karma.unit.options.files', includes);
             grunt.config('karma.unit.options.junitReporter', {
                 outputFile: featureName+'-test-results.xml',
