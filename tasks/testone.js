@@ -73,6 +73,8 @@ module.exports = function (grunt){
             testsBasePath = taskConfig && taskConfig.testsBasePath || '';
         if (grunt.file.isFile(cachePath)) {
             featuresBuildCacheJson = grunt.file.readJSON(cachePath);
+        } else {
+            grunt.fatal('before this command need to run make:features command');
         }
         grunt.log.debug( includesBasePath );
         buildTarget = buildTarget || 'gadget';
@@ -80,12 +82,7 @@ module.exports = function (grunt){
             grunt.log.error('You must specified feature name');
             return;
         }
-        if (!grunt.file.isFile('featurecache.json')) {
-            grunt.log.error('before this command need to run make:features command');
-            return;
-        }
-        var features = grunt.file.readJSON('featurecache.json'),
-            testFeatureBuilds = features[featureName],
+        var testFeatureBuilds = featuresBuildCacheJson[featureName],
             buildRegExp = new RegExp(buildTarget+'.js$'),
             includes = serchHackFiles(featureName) || [];
         if (!testFeatureBuilds || !testFeatureBuilds.length) {
