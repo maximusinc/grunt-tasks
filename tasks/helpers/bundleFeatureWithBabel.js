@@ -7,10 +7,7 @@ module.exports = function (grunt, path, featureXml2Json) {
 	var featurePath = aux.join('/');
 	var parseScriptItem = require('./parseScriptItem');
 	var featureXmlScriptsReplacer = require('./featureXmlScriptsReplacer');
-	var normalizeFeatureName2Config = function (name) {
-		if (!name) return;
-		return (name+'').replace(/\./g,'_');
-	};
+	var normalizeFeatureName2Config = require('./normalizeFeatureName2Config');
 	var featureName = normalizeFeatureName2Config(featureXml2Json['feature']['name']);
 	files[ featurePath + '/' + BUNDLE_NAME ] = parseScriptItem(grunt, featurePath, featureXml2Json['feature']['gadget'][0]);
 	grunt.config.set('browserify.' + featureName + '.files', files);

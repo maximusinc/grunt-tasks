@@ -1,6 +1,7 @@
 module.exports = function (grunt, path, featureJson) {
 	var fs = require('fs');
 	var parseScriptItem = require('./parseScriptItem');
+    var target = grunt.option('target') || 'dev';
     featureJson = featureJson['feature'];
     var aux = path.split('/'),
         concat = grunt.config('concat'),
@@ -25,13 +26,15 @@ module.exports = function (grunt, path, featureJson) {
                 features[ featureJson['name'] ] = [];
             }
             features[ featureJson['name'] ].push( dist + '/' + item + '.js' );
-            if (featureJson[item][0] &&
-                featureJson[item][0]['$'] &&
-                featureJson[item][0]['$']['syntax'] &&
-                featureJson[item][0]['$']['syntax'] === 'es2015') {
+            if (featureJson.babel) {
                 var files = {};
+                var options = {
+                    transform: [ ["babelify", {presets: featureJson.babel}] ],
+                    debug: true
+                };
                 files[ dist + '/' + item + '.js' ] = parseScriptItem(grunt, featurePath, featureJson[item][0]);
                 grunt.config.set('browserify.feature_' + item + '.files', files);
+                grunt.config.set('browserify.feature_' + item + '.options', options);
                 isES2015 = true;
                 needRunTasks.push('browserify:feature_' + item);
             } else {
