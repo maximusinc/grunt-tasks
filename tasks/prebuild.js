@@ -3,6 +3,7 @@ module.exports = function (grunt) {
 	var parseString = require('xml2js').parseString;
     var bundleFeatureWithBabel = require('./helpers/bundleFeatureWithBabel');
 	var runUglifyForOptFile = require('./helpers/runUglifyForOptFile');
+    var makeFeatureTxt = require('./helpers/makeFeatureTxt');
     grunt.registerMultiTask('prebuild', 'alias for jscs and karma tasks', function (target) {
     	if (grunt.task.current.target === 'features') {
     		grunt.task.current.files.forEach(function (file) {
@@ -21,6 +22,7 @@ module.exports = function (grunt) {
                         }
                     });
 	            });
+                makeFeatureTxt(grunt, srcFiles, 2);
 	        });
     	} else {
     		grunt.task.run(['jscs', 'karma']);
