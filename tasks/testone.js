@@ -101,7 +101,7 @@ module.exports = function (grunt){
                 }
             });
 
-            includes.push(testsBasePath + featureName + '/*.js');
+            includes.push(testsBasePath + featureName + '/**/*.js');
             grunt.config('karma.unit.options.files', includes);
             grunt.config('karma.unit.options.junitReporter', {
                 outputFile: testsBasePath + featureName+'-test-results.xml',
