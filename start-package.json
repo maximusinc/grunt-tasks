@@ -1,7 +1,0 @@
-{
-  "name": "package-name-here",
-  "version": "0.0.0",
-  "devDependencies": {
-    "roox-grunt-tasks": "git+https://maximusinc@github.com/maximusinc/grunt-tasks.git#0.1.6"
-  }
-}
