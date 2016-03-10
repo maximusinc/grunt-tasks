@@ -10,17 +10,22 @@ module.exports = function (grunt, path, featureJson) {
         features = grunt.config('features'),
         isES2015 = false,
         needRunTasks = [],
+        aux2 = [],
         featurePath,
         dist;
     aux.pop();
-    featurePath = aux.join('/');
-    aux.push('dist');
-    dist = aux.join('/');
-    try {
-        fs.mkdirSync(dist,'777');
-    } catch(e) {
-        if ( e.code != 'EEXIST' ) throw e;
-    }
+    aux.forEach(function (str) {
+        if (str !== '..') {
+            aux2.push(str);
+        } else {
+            aux2.push('.tmp');
+        }
+    });
+    // aux.unshift('bower_components');
+    featurePath = aux2.join('/');
+    aux2.push('dist');
+    dist = aux2.join('/');
+    grunt.file.mkdir(dist);
 
     (['gadget', 'container']).forEach(function (item) {
         if (featureJson['name'] && featureJson['name'].length && featureJson[item] && featureJson[item].length) {
@@ -30,8 +35,14 @@ module.exports = function (grunt, path, featureJson) {
             features[ featureJson['name'] ].push( dist + '/' + item + '.js' );
             if (featureJson.babel) {
                 var files = {};
+                var presets = [];
+                featureJson.babel.forEach(function (name) {
+                    var m = require('babel-preset-' + name);
+                    if (!m) grunt.fail.warn('Preset: '+ name + ' is not supported, check package.json');
+                    presets.push( m );
+                });
                 var options = {
-                    transform: [ ["babelify", {presets: featureJson.babel}] ],
+                    transform: [ ["babelify", {presets: presets}] ],
                     debug: true
                 };
                 files[ dist + '/' + item + '.js' ] = parseScriptItem(grunt, featurePath, featureJson[item][0]);
