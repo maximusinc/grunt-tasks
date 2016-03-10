@@ -29,7 +29,8 @@ module.exports = function (grunt){
                 features[featureName].forEach(function (path) {
 
                     if ((new RegExp(target+'.js$').test(path))) {
-                        arrFeatures = arrFeatures.concat(readWidgetDeps(grunt, reccurReplacer.bind(null, '.tmp/', '../')(path)));
+                        var normalizer = reccurReplacer.bind(null, '.tmp/', '../');
+                        arrFeatures = arrFeatures.concat(readWidgetDeps(grunt, normalizer(path), normalizer));
                     }
                 });
             }
