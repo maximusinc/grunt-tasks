@@ -1,6 +1,7 @@
 module.exports = function (grunt){
     var readWidgetDeps = require('./helpers/readWidgetDeps');
     var getUnique = require('./helpers/getUnique');
+    var upPathNormalizer = require('./helpers/upPathNormalizer');
     var cachedFeatures = require('./helpers/get_cached_features');
     /**
      * fix problem of resolving features from up folder
@@ -29,7 +30,7 @@ module.exports = function (grunt){
                 features[featureName].forEach(function (path) {
 
                     if ((new RegExp(target+'.js$').test(path))) {
-                        var normalizer = reccurReplacer.bind(null, '.tmp/', '../');
+                        var normalizer = upPathNormalizer.makeUpFromTmp;
                         arrFeatures = arrFeatures.concat(readWidgetDeps(grunt, normalizer(path), normalizer));
                     }
                 });
@@ -37,7 +38,7 @@ module.exports = function (grunt){
             //grunt.task.run('dependency:show_feature:'+featureName);
         });
         arrFeatures = getUnique(arrFeatures).map(function (path) {
-            return reccurReplacer.bind(null, '../', '.tmp/')(path);
+            return upPathNormalizer.makeTmpFromUp(path).replace(/\\/g, '/');
         });
         grunt.log.debug('arr features');
         grunt.log.debug(arrFeatures);

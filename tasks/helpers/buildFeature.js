@@ -1,30 +1,23 @@
 module.exports = function (grunt, path, featureJson) {
 	var fs = require('fs');
+    var pathModule = require('path');
 	var parseScriptItem = require('./parseScriptItem');
     var target = grunt.option('target') || 'dev';
     var normalizeFeatureName2Config = require('./normalizeFeatureName2Config');
     var featureName = normalizeFeatureName2Config(featureJson['feature']['name']);
+    var upPathNormalizer = require('./upPathNormalizer');
     featureJson = featureJson['feature'];
-    var aux = path.split('/'),
+    var upPath = pathModule.dirname(path),
+        upCount = upPathNormalizer.getUpCount(path),
         concat = grunt.config('concat'),
         features = grunt.config('features'),
         isES2015 = false,
         needRunTasks = [],
-        aux2 = [],
         featurePath,
         dist;
-    aux.pop();
-    aux.forEach(function (str) {
-        if (str !== '..') {
-            aux2.push(str);
-        } else {
-            aux2.push('.tmp');
-        }
-    });
     // aux.unshift('bower_components');
-    featurePath = aux2.join('/');
-    aux2.push('dist');
-    dist = aux2.join('/');
+    featurePath = upCount === null ? upPath : upPathNormalizer.makeTmpFromUp( upPath, upCount ) ;
+    dist = pathModule.join(featurePath, 'dist');
     grunt.file.mkdir(dist);
 
     (['gadget', 'container']).forEach(function (item) {

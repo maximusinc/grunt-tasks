@@ -1,10 +1,11 @@
 module.exports = function (grunt, distPath){
-	var parseXML = require('node-xml-lite').parseString;
-	var aux = distPath.split('/'), featurePath, xml, docXml;
-    aux.pop();
-    aux.pop();
-    aux.push('feature.xml');
-    featurePath = aux.join('/');
-    xml = grunt.file.read(featurePath);
+	var path = require('path');
+ 	var parseXML = require('node-xml-lite').parseString;
+	var featurePath = path.dirname(path.dirname(distPath)),
+		featureXmlPath,
+		xml,
+		docXml;
+    featureXmlPath = path.join( featurePath, 'feature.xml');
+    xml = grunt.file.read(featureXmlPath);
     return parseXML(xml);
 };
