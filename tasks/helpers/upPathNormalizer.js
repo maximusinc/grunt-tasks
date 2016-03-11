@@ -20,6 +20,11 @@ module.exports = {
 		var res = path.match(/\.\.(\\|\/)/g);
 		return res && res.length || null;
 	},
+	makeAllUpFromTmp: function (arr) {
+		return arr.map(function (p) {
+			return this.makeUpFromTmp(p);
+		}.bind(this));
+	},
 	makeUpFromTmp: function (path) {
 		var res = path.match(/\.tmp(\/|\\)_(\d)_/),
 			c = res ? res[res.length-1] : 0,

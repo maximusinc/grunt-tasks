@@ -38,14 +38,14 @@ module.exports = function (grunt, path, featureJson) {
                     transform: [ ["babelify", {presets: presets}] ],
                     debug: true
                 };
-                files[ dist + '/' + item + '.js' ] = parseScriptItem(grunt, featurePath, featureJson[item][0]);
+                files[ dist + '/' + item + '.js' ] = upPathNormalizer.makeAllUpFromTmp(parseScriptItem(grunt, featurePath, featureJson[item][0]));
                 grunt.config.set('browserify.feature_' + featureName + '_' + item + '.files', files);
                 grunt.config.set('browserify.feature_' + featureName + '_' + item + '.options', options);
                 isES2015 = true;
                 needRunTasks.push('browserify:feature_' + featureName + '_' + item);
             } else {
                 concat[ dist + '/' +item ] = {
-                    src: parseScriptItem(grunt, featurePath, featureJson[item][0]),
+                    src: upPathNormalizer.makeAllUpFromTmp(parseScriptItem(grunt, featurePath, featureJson[item][0])),
                     dest: dist + '/' + item + '.js'
                 };
             }
