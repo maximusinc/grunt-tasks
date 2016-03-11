@@ -12,7 +12,7 @@ module.exports = function (grunt){
                 srcFiles = grunt.file.expand(src);
             srcFiles.forEach(function(filepath) {
                 var xml = grunt.file.read(filepath);
-                if(grunt.task.current.target === 'features') {
+                if(grunt.task.current.target === 'features' || grunt.task.current.target === 'ext_features' ) {
                     parseString(xml, function (err, result) {
                             buildFeature(grunt, filepath, result);
                     });
