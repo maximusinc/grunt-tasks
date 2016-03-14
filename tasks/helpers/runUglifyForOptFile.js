@@ -1,11 +1,9 @@
 module.exports = function (grunt, path, featureXml2Json){
+	var pathModule = require('path');
 	var parseScriptItem = require('./parseScriptItem');
 	var normalizeFeatureName2Config = require('./normalizeFeatureName2Config');
 
-	var aux = path.split('/');
-	aux.pop(); // remove feature.xml from path
-	var featurePath = aux.join('/');
-
+	var featurePath = pathModule.dirname(path);
 	var featureName = normalizeFeatureName2Config(featureXml2Json['feature']['name']);
 	var srcList = parseScriptItem(grunt, featurePath, featureXml2Json['feature']['gadget'][0]);
 	var uglifyFiles = {};

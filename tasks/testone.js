@@ -1,5 +1,6 @@
 module.exports = function (grunt){
     var parseXML = require('node-xml-lite').parseString;
+    var pathModule = require('path');
     var getUnique = function (arr) {
         function onlyUnique(value, index, self) {
             return self.indexOf(value) === index;
@@ -25,11 +26,9 @@ module.exports = function (grunt){
         var result = [] ,
         docXml,
         getXmlDoc = function (distPath) {
-            var aux = distPath.split('/'), featurePath, xml, docXml;
-            aux.pop();
-            aux.pop();
-            aux.push('feature.xml');
-            featurePath = aux.join('/');
+            grunt.log.debug('dist Path for feature: ' + distPath);
+            var featurePath, xml, docXml;
+            featurePath = pathModule.join(pathModule.dirname(pathModule.dirname( distPath )), 'feature.xml');
             grunt.log.debug('read xml:' + featurePath);
             xml = grunt.file.read(featurePath);
             return parseXML(xml);

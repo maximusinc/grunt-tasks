@@ -25,7 +25,7 @@ module.exports = function (grunt, path, featureJson) {
             if (!features[ featureJson['name'] ]) {
                 features[ featureJson['name'] ] = [];
             }
-            features[ featureJson['name'] ].push( dist + '/' + item + '.js' );
+            features[ featureJson['name'] ].push( dist + pathModule.sep + item + '.js' );
             if (featureJson.babel) {
                 var files = {};
                 var presets = [];
@@ -38,15 +38,15 @@ module.exports = function (grunt, path, featureJson) {
                     transform: [ ["babelify", {presets: presets}] ],
                     debug: true
                 };
-                files[ dist + '/' + item + '.js' ] = upPathNormalizer.makeAllUpFromTmp(parseScriptItem(grunt, featurePath, featureJson[item][0]));
+                files[ dist + pathModule.sep + item + '.js' ] = upPathNormalizer.makeAllUpFromTmp(parseScriptItem(grunt, featurePath, featureJson[item][0]));
                 grunt.config.set('browserify.feature_' + featureName + '_' + item + '.files', files);
                 grunt.config.set('browserify.feature_' + featureName + '_' + item + '.options', options);
                 isES2015 = true;
                 needRunTasks.push('browserify:feature_' + featureName + '_' + item);
             } else {
-                concat[ dist + '/' +item ] = {
+                concat[ dist + pathModule.sep +item ] = {
                     src: upPathNormalizer.makeAllUpFromTmp(parseScriptItem(grunt, featurePath, featureJson[item][0])),
-                    dest: dist + '/' + item + '.js'
+                    dest: dist + pathModule.sep + item + '.js'
                 };
             }
         }
