@@ -1,7 +1,7 @@
 module.exports = function (grunt, srcFiles, pathLevel) {
 	var pathModule = require('path');
 	var txtFilePath = null;
-	var pathSeparator = pathModule.sep;
+	var pathSeparator = '/';
 	var content = [];
 	srcFiles.forEach(function (filepath) {
 		var aux = filepath.split(pathSeparator);
