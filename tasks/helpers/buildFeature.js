@@ -2,6 +2,7 @@ module.exports = function (grunt, path, featureJson) {
 	var fs = require('fs');
     var pathModule = require('path');
 	var parseScriptItem = require('./parseScriptItem');
+    var featuresDepsStore = require('./featuresDepsStore');
     var target = grunt.option('target') || 'dev';
     var normalizeFeatureName2Config = require('./normalizeFeatureName2Config');
     var featureName = normalizeFeatureName2Config(featureJson['feature']['name']);
@@ -51,6 +52,7 @@ module.exports = function (grunt, path, featureJson) {
             }
         }
     });
+    featuresDepsStore.push(featureJson['name'], featureJson['dependency']);
 
     if (isES2015) {
         grunt.task.run(needRunTasks);

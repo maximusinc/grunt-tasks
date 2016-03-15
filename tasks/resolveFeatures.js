@@ -3,17 +3,7 @@ module.exports = function (grunt){
     var getUnique = require('./helpers/getUnique');
     var upPathNormalizer = require('./helpers/upPathNormalizer');
     var cachedFeatures = require('./helpers/get_cached_features');
-    /**
-     * fix problem of resolving features from up folder
-     * @param  {string} str [description]
-     */
-    var reccurReplacer = function (search, replace, str) {
-        if (str.indexOf(search) !== -1) {
-            return reccurReplacer( search, replace, str.replace(search, replace) );
-        } else {
-            return str;
-        }
-    };
+
     grunt.registerTask('resolveFeatures', function (target) {
         target = target ? target : 'gadget';
         var arrFeaturesNames = grunt.config('widget.deps.features') || [],

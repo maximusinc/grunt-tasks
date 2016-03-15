@@ -1,5 +1,6 @@
 module.exports = function (grunt){
 	var config = require('./helpers/config');
+    var featuresDepsStore = require('./helpers/featuresDepsStore');
 	/**
      * Cache features after grunt make:features task
      */
@@ -9,6 +10,7 @@ module.exports = function (grunt){
         	// prevent empty caching
         	grunt.file.write(config.cacheFeaturesPath, JSON.stringify(o));
         }
+        grunt.file.write(config.cacheFeaturesDepsPath, JSON.stringify( featuresDepsStore.getStore() ));
     });
 
 };
