@@ -15,7 +15,7 @@ module.exports = function (grunt) {
                     parseString(xml, function (err, result) {
                     	if ( result && result.feature && result.feature.babel) {
                             // create bundle
-                    		bundleFeatureWithBabel(grunt, filepath, result);
+                            bundleFeatureWithBabel(grunt, filepath, result);
                     	} else {
                             // uglify and add .opt extension
                             runUglifyForOptFile(grunt, filepath, result);

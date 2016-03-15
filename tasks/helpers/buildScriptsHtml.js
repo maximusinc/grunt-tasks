@@ -18,7 +18,7 @@ module.exports = function (arrFeatures, arrFeaturesPath, target) {
 
             });
         } else {
-            grunt.log.warn("Feature "+ name + "not exist in cached, try \"make:features\" command");
+            grunt.log.warn("Feature "+ name + " is't exist in cached, try \"make:features\" command");
         }
     });
     return html;

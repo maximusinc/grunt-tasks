@@ -7,11 +7,12 @@
   },
   "main": "init.js",
   "dependencies": {
-    "uglify-js": "2.4.1",
-    "datauri": "~0.2.0",
     "clean-css": "1.1.7",
+    "datauri": "~0.2.0",
+    "htmlprocessor": "^0.2.3",
     "node-xml-lite": "0.0.3",
-    "xmlbuilder": "~4.1.0",
-    "xml2js": "^0.4.6"
+    "uglify-js": "2.4.1",
+    "xml2js": "^0.4.6",
+    "xmlbuilder": "~4.1.0"
   }
 }
