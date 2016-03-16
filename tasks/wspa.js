@@ -8,6 +8,7 @@ module.exports = function (grunt){
     var processWidgetBody = require('./helpers/processWidgetBody');
     var getDefaultConfig = require('./helpers/getDefaultConfig');
     var widgetsGlobalBaseUrlManager = require('./helpers/wspa/widgetsGlobalBaseUrlManager');
+    var setupWSPAWatchers = require('./helpers/wspa/setupWSPAWatchers');
 
     grunt.registerTask('wspa', 'one page widgets rendering', function () {
         var widgets = grunt.config('wspa.widgets'),
@@ -24,7 +25,16 @@ module.exports = function (grunt){
         for(var alias in widgetsInfo) {
             grunt.log.debug("widgetsInfo:");
             grunt.log.debug(JSON.stringify(widgetsInfo));
-            var curMid = (widgetsInfo[alias].mid || counter);
+            var curMid = (widgetsInfo[alias].mid || counter),
+                processOptions = {
+                    base: destPath + alias + '/',
+                    widgetFolder: pathModule.dirname( widgetsInfo[alias].descriptor ),
+                    alias: alias
+                },
+                processParams = {
+                    locales: widgetsInfo[ alias].locales,
+                    mid: curMid
+                };
             widgetsGlobalBaseUrlManager.add({
                 mid: curMid,
                 descriptor: widgetsInfo[alias].descriptor
@@ -32,15 +42,9 @@ module.exports = function (grunt){
             arrAllWidgetsFeatures = arrAllWidgetsFeatures.concat( widgetsInfo[ alias].features );
             tmpData[ alias ] = processWidgetBody(bodyReplacer(widgetsInfo[alias].widgetBody, {
                 mid: curMid
-            } ), {
-                base: destPath + alias + '/',
-                widgetFolder: pathModule.dirname( widgetsInfo[alias].descriptor ),
-                alias: alias
-            }, {
-                locales: widgetsInfo[ alias].locales,
-                mid: curMid
-            });
+            } ), processOptions, processParams);
             counter += 1;
+            setupWSPAWatchers(processOptions); // setup watch config
         }
         arrResolverFeatures = featuresResolver(arrAllWidgetsFeatures);
         if (wspaConfigFile && grunt.file.isFile(wspaConfigFile)) {
@@ -51,6 +55,8 @@ module.exports = function (grunt){
         grunt.file.write( wspaDest, grunt.template.process( grunt.file.read(template), {
             data: tmpData
         } ) );
+        grunt.log.debug( "Generated watch config:" );
+        grunt.log.debug( JSON.stringify( grunt.config('watch') ) );
     });
 
 };
