@@ -10,11 +10,13 @@ module.exports = function (widgets, grunt) {
     Object.keys(widgets).forEach(function(key) {
         if ( typeof widgets[key] === 'string' ) {
             widgetsInfo[ key ] = getWidgetInfo(grunt, widgets[key]);
+            widgetsInfo[key].descriptor = widgets[key];
         } else if (widgets[key].descriptor) {
             widgetsInfo[key] = getWidgetInfo(grunt, widgets[key].descriptor);
             if ( typeof widgets[key].mid !== 'undefined') {
                 widgetsInfo[key].mid = widgets[key].mid;
             }
+            widgetsInfo[key].descriptor = widgets[key].descriptor;
         }
     });
 

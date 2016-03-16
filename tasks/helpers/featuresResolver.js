@@ -17,22 +17,22 @@ module.exports = function (arrFeaturesNames) {
     var featuresDeps = featuresDepsStore.getCachedStore();
     var resolved = [];
     var recurResolver = function(name, arrResolved) {
-        arrResolved.push(name);
+        arrResolved.unshift(name);
         if (featuresDeps && featuresDeps[name] && featuresDeps[name].length) {
             featuresDeps[name].forEach(function (name) {
                recurResolver(name, arrResolved);
             });
         } else {
-            return getUnique(arrResolved.reverse());
+            return arrResolved;
         }
     };
     if (!Object.keys(features).length) {
         grunt.fail.fatal('Can"t resolve features: support only cached features, try to run "make:features" command');
     }
-    arrFeaturesNames.forEach(function (name) {
+    getUnique(arrFeaturesNames).forEach(function (name) {
         var arrResolved = [];
         recurResolver(name, arrResolved);
-        resolved = resolved.concat(arrResolved);
+        resolved = resolved.concat(getUnique(arrResolved));
     });
     grunt.log.debug("arrFeaturesNames:");
     grunt.log.debug(JSON.stringify(arrFeaturesNames));

@@ -9,7 +9,9 @@ var pathModule = require('path');
 module.exports = function(htmlBody, options, params) {
     var processor = new HTMLProcessor({
             process: false,
-            data: {},
+            data: {
+                widgetFolder: options.widgetFolder
+            },
             templateSettings: null,
             includeBase: options.base || null,
             commentMarker: 'build',
@@ -21,9 +23,13 @@ module.exports = function(htmlBody, options, params) {
         arrToReplace = [],
         filesToCopy = [{
             expand: true,
-            src: [],
+            src: [
+                'i/**',
+                'fonts/**',
+                'css/**'
+            ],
             dest: options.base,
-            cwd: '<%= widgetFolder %>'
+            cwd: options.widgetFolder
         }],
         processedBody = processor.processContent(htmlBody);
     var matchers =  typeof processedBody === 'string' ? processedBody.match(/<\s*link.*href=["\']([^"']*)["\'].*/ig) : null;
@@ -45,10 +51,13 @@ module.exports = function(htmlBody, options, params) {
             }
         });
     }
-    // add locales to widget html output
+    // prepend locales to widget html output
     if (params.locales && params.locales[0]) {
         processedBody = '<script type="text/javascript">com.rooxteam.i18n.setLocales(' + JSON.stringify(params.locales[0]) + ', "' + params.mid + '")</script>\r\n' + processedBody;
     }
+
+    // add widget runner
+    processedBody += '<script>gadgets.util.runOnLoadHandlers(' + params.mid + ');</script>';
     grunt.log.debug( JSON.stringify(filesToCopy) );
     grunt.config('copy.'+options.alias, {
         files: filesToCopy

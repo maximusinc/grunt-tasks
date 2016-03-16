@@ -4,7 +4,7 @@
 
 var get_cached_features = require('./get_cached_features');
 var grunt = require('grunt');
-module.exports = function (arrFeatures, arrFeaturesPath, target) {
+module.exports = function (arrFeatures, arrFeaturesPath, target, wspaConfig) {
     target = target || 'gadget';
     arrFeaturesPath = arrFeaturesPath || get_cached_features(grunt);
     var html = '';
@@ -21,5 +21,6 @@ module.exports = function (arrFeatures, arrFeaturesPath, target) {
             grunt.log.warn("Feature "+ name + " is't exist in cached, try \"make:features\" command");
         }
     });
+    html += '<script>gadgets.config.init(' + wspaConfig + ');</script>';
     return html;
 };
