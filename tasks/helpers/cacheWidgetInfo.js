@@ -16,7 +16,9 @@ module.exports = function (widgets, grunt) {
             if ( typeof widgets[key].mid !== 'undefined') {
                 widgetsInfo[key].mid = widgets[key].mid;
             }
-            widgetsInfo[key].descriptor = widgets[key].descriptor;
+            ['descriptor', 'params'].forEach(function(paramKey) {
+                widgetsInfo[key][paramKey] = widgets[key][paramKey];
+            });
         }
     });
 

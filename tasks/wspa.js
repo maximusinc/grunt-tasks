@@ -9,6 +9,7 @@ module.exports = function (grunt){
     var getDefaultConfig = require('./helpers/getDefaultConfig');
     var widgetsGlobalBaseUrlManager = require('./helpers/wspa/widgetsGlobalBaseUrlManager');
     var setupWSPAWatchers = require('./helpers/wspa/setupWSPAWatchers');
+    var extendWSPAConfig = require('./helpers/wspa/extendConfig');
 
     grunt.registerTask('wspa', 'one page widgets rendering', function () {
         var widgets = grunt.config('wspa.widgets'),
@@ -16,6 +17,7 @@ module.exports = function (grunt){
             wspaDest = grunt.config('wspa.dest'),
             destPath = grunt.config.get('destPath'),
             wspaConfigFile = grunt.config('wspa.config'),
+            partialWspaConfig = grunt.config('wspa.partialConfig'),
             widgetsInfo = cacheWidgetInfo(widgets, grunt),
             arrAllWidgetsFeatures = grunt.config('wspa.wrsDefaults') || [],
             arrResolverFeatures,
@@ -37,8 +39,10 @@ module.exports = function (grunt){
                 };
             widgetsGlobalBaseUrlManager.add({
                 mid: curMid,
-                descriptor: widgetsInfo[alias].descriptor
+                descriptor: widgetsInfo[alias].descriptor,
+                params: widgetsInfo[alias].params
             });
+            grunt.log.debug("PARAMS", widgetsInfo[alias].params);
             arrAllWidgetsFeatures = arrAllWidgetsFeatures.concat( widgetsInfo[ alias].features );
             tmpData[ alias ] = processWidgetBody(bodyReplacer(widgetsInfo[alias].widgetBody, {
                 mid: curMid
@@ -49,6 +53,11 @@ module.exports = function (grunt){
         arrResolverFeatures = featuresResolver(arrAllWidgetsFeatures);
         if (wspaConfigFile && grunt.file.isFile(wspaConfigFile)) {
             wspaConfig = grunt.file.read(wspaConfigFile);
+        }
+        if ( typeof partialWspaConfig === 'string' && grunt.file.isFile(partialWspaConfig) ) {
+            wspaConfig = extendWSPAConfig(wspaConfig, grunt.file.read( partialWspaConfig ) );
+        } else if ( typeof partialWspaConfig !== 'undefined' && partialWspaConfig ) {
+            wspaConfig = extendWSPAConfig(wspaConfig, partialWspaConfig);
         }
         tmpData['featuresSrc'] = widgetsGlobalBaseUrlManager.buildScript() + buildScriptsHtml(arrResolverFeatures,null, null, wspaConfig);
         grunt.log.debug(arrResolverFeatures);

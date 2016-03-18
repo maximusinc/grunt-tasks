@@ -24,9 +24,9 @@ module.exports = function(htmlBody, options, params) {
         filesToCopy = [{
             expand: true,
             src: [
-                'i/**',
-                'fonts/**',
-                'css/**'
+                '**/*',
+                '!js/**',
+                '!*'
             ],
             dest: options.base,
             cwd: options.widgetFolder
