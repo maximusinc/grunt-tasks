@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WSPA</title>
+    <%= featuresSrc %>
+    <script>
+        (function (config, href) {
+            var index = href.indexOf('#'),
+                targetSrc,
+                userId;
+            if (index !== -1) {
+                targetStr = href.slice(index+1, href.length),
+                userId = targetStr.split('/').shift();
+            }
+            if (userId) {
+                config['shindig.auth'].authToken = 'dev_1.0_' + userId;
+                config['shindig.auth'].trustedJson = JSON.stringify({
+                    principal: userId,
+                    userId: userId,
+                    attributes: {}
+                });
+            }
+            gadgets.config.init(config);
+        })(<%= wspaConfig %>, location.href);
+    </script>
+</head>
+<body>
+    <div class="wrapper1">
+        <%= cardInfo %>
+    </div>
+</body>
+</html>
+
+

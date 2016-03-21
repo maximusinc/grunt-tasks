@@ -60,6 +60,7 @@ module.exports = function (grunt){
             wspaConfig = extendWSPAConfig(wspaConfig, partialWspaConfig);
         }
         tmpData['featuresSrc'] = widgetsGlobalBaseUrlManager.buildScript() + buildScriptsHtml(arrResolverFeatures,null, null, wspaConfig);
+        tmpData['wspaConfig'] = wspaConfig;
         grunt.log.debug(arrResolverFeatures);
         grunt.file.write( wspaDest, grunt.template.process( grunt.file.read(template), {
             data: tmpData

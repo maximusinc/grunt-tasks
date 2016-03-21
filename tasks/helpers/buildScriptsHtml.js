@@ -21,6 +21,6 @@ module.exports = function (arrFeatures, arrFeaturesPath, target, wspaConfig) {
             grunt.log.warn("Feature "+ name + " is't exist in cached, try \"make:features\" command");
         }
     });
-    html += '<script>gadgets.config.init(' + wspaConfig + ');</script>';
+    //html += '<script>gadgets.config.init(' + wspaConfig + ');</script>';
     return html;
 };
