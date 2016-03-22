@@ -1,5 +1,6 @@
 module.exports = function (grunt, path, featureXml2Json) {
 	var pathModule = require('path');
+	var css2radium = require('./react/css2radium');
 	var BUNDLE_NAME = 'main.bundle.js';
 	var BUNDLE_NAME_OPT = 'main.bundle.opt.js';
 	var files = {};
@@ -8,10 +9,19 @@ module.exports = function (grunt, path, featureXml2Json) {
 	var featureXmlScriptsReplacer = require('./featureXmlScriptsReplacer');
 	var normalizeFeatureName2Config = require('./normalizeFeatureName2Config');
 	var featureName = normalizeFeatureName2Config(featureXml2Json['feature']['name']);
+	var presets = [];
+	featureXml2Json.feature.forEach(function (name) {
+		var m = require('babel-preset-' + name);
+		if (!m) grunt.fail.warn('Preset: '+ name + ' is not supported, check package.json');
+		presets.push( m );
+	});
+	if (presets.indexOf('react')) {
+		css2radium(path, featureXml2Json.feature);
+	}
 	files[ featurePath + pathModule.sep + BUNDLE_NAME ] = parseScriptItem(grunt, featurePath, featureXml2Json['feature']['gadget'][0]);
 	grunt.config.set('browserify.' + featureName + '.files', files);
     grunt.config.set('browserify.' + featureName + '.options', {
-		transform: [ ["babelify", {presets: featureXml2Json.feature.babel}] ],
+		transform: [ ["babelify", {presets: presets}] ],
 		debug: false
 	});
 	// uglify config

@@ -7,6 +7,7 @@ module.exports = function (grunt, path, featureJson) {
     var normalizeFeatureName2Config = require('./normalizeFeatureName2Config');
     var featureName = normalizeFeatureName2Config(featureJson['feature']['name']);
     var upPathNormalizer = require('./upPathNormalizer');
+    var css2radium = require('./react/css2radium');
     featureJson = featureJson['feature'];
     var upPath = pathModule.dirname(path),
         upCount = upPathNormalizer.getUpCount(path),
@@ -35,6 +36,9 @@ module.exports = function (grunt, path, featureJson) {
                     if (!m) grunt.fail.warn('Preset: '+ name + ' is not supported, check package.json');
                     presets.push( m );
                 });
+                if (presets.indexOf('react')) {
+                    css2radium(path, featureJson);
+                }
                 var options = {
                     transform: [ ["babelify", {presets: presets}] ],
                     debug: true
