@@ -10,7 +10,7 @@ module.exports = function (grunt, path, featureXml2Json) {
 	var normalizeFeatureName2Config = require('./normalizeFeatureName2Config');
 	var featureName = normalizeFeatureName2Config(featureXml2Json['feature']['name']);
 	var presets = [];
-	featureXml2Json.feature.forEach(function (name) {
+	featureXml2Json.feature.babel.forEach(function (name) {
 		var m = require('babel-preset-' + name);
 		if (!m) grunt.fail.warn('Preset: '+ name + ' is not supported, check package.json');
 		presets.push( m );
