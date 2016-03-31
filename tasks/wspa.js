@@ -24,6 +24,16 @@ module.exports = function (grunt){
             tmpData = {},
             counter = 0,
             wspaConfig = getDefaultConfig(grunt);
+
+        if (wspaConfigFile && grunt.file.isFile(wspaConfigFile)) {
+            wspaConfig = grunt.file.read(wspaConfigFile);
+        }
+        if ( typeof partialWspaConfig === 'string' && grunt.file.isFile(partialWspaConfig) ) {
+            wspaConfig = extendWSPAConfig(wspaConfig, grunt.file.read( partialWspaConfig ) );
+        } else if ( typeof partialWspaConfig !== 'undefined' && partialWspaConfig ) {
+            wspaConfig = extendWSPAConfig(wspaConfig, partialWspaConfig);
+        }
+
         for(var alias in widgetsInfo) {
             grunt.log.debug("widgetsInfo:");
             grunt.log.debug(JSON.stringify(widgetsInfo));
@@ -46,19 +56,12 @@ module.exports = function (grunt){
             arrAllWidgetsFeatures = arrAllWidgetsFeatures.concat( widgetsInfo[ alias].features );
             tmpData[ alias ] = processWidgetBody(bodyReplacer(widgetsInfo[alias].widgetBody, {
                 mid: curMid
-            } ), processOptions, processParams);
+            }, wspaConfig), processOptions, processParams);
             counter += 1;
             setupWSPAWatchers(processOptions); // setup watch config
         }
         arrResolverFeatures = featuresResolver(arrAllWidgetsFeatures);
-        if (wspaConfigFile && grunt.file.isFile(wspaConfigFile)) {
-            wspaConfig = grunt.file.read(wspaConfigFile);
-        }
-        if ( typeof partialWspaConfig === 'string' && grunt.file.isFile(partialWspaConfig) ) {
-            wspaConfig = extendWSPAConfig(wspaConfig, grunt.file.read( partialWspaConfig ) );
-        } else if ( typeof partialWspaConfig !== 'undefined' && partialWspaConfig ) {
-            wspaConfig = extendWSPAConfig(wspaConfig, partialWspaConfig);
-        }
+
         tmpData['featuresSrc'] = widgetsGlobalBaseUrlManager.buildScript() + buildScriptsHtml(arrResolverFeatures,null, null, wspaConfig);
         tmpData['wspaConfig'] = wspaConfig;
         grunt.log.debug(arrResolverFeatures);

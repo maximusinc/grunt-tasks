@@ -9,7 +9,7 @@ module.exports = function (grunt){
 
 
         grunt.file.write(conf.dest, grunt.template.process(tmpl, {data: {
-            body : replacer(conf.body, conf),
+            body : replacer(conf.body, conf, widgetConfig),
             config: widgetConfig,
             deps : conf.deps,
             mid : conf.mid,

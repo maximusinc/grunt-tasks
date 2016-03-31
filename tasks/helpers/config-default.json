@@ -12,6 +12,7 @@
     },
     "com.rooxteam.config":{
         "redirector":{},
+        "CDN_URL": "http://localhost/cdn/",
         "social":{
             "vkontakte":{
                 "app":{},
