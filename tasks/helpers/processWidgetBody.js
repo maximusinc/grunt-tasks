@@ -32,13 +32,22 @@ module.exports = function(htmlBody, options, params) {
             cwd: options.widgetFolder
         }],
         processedBody = processor.processContent(htmlBody);
+
+    //TODO process js files too
     var matchers =  typeof processedBody === 'string' ? processedBody.match(/<\s*link.*href=["\']([^"']*)["\'].*/ig) : null;
 
     // replace css files paths relative root
     if (matchers && matchers.length) {
         arrToReplace = matchers.map(function(line) {
             var m = line.match(/^\s*<\s*link.*href=["\']([^"']*)["\'].*$/i);
-            if (m && m.length) {
+            //skip absolute urls
+            if (m &&
+                m.length &&
+                m[1].substr(0,1) !== "/" &&
+                m[1].substr(0,5) !== "http:" &&
+                m[1].substr(0,6) !== "https:" &&
+                m[1].substr(0,5) !== "file:"
+            ) {
                 filesToCopy[0].src.push(m[1]);
                 return [line, line.replace(m[1],options.base + m[1])];
             } else {
