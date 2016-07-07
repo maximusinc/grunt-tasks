@@ -2,11 +2,9 @@
 <html>
 	<head>
         <meta charset="UTF-8">
-		<script>widgetUrls=window['widgetUrls']||[];widgetUrls[<%= mid %>]='http://localhost/widgets/<%= descriptor %>?mid=<%= mid %>&lang=ru';baseUrls=window['baseUrls']||[];baseUrls[0]='https://localhost/widgets/<%= descriptor %>';</script>
+		<script>widgetUrls=window['widgetUrls']||[];widgetUrls[<%= mid %>]='<%= wFolder %><%= descriptor %><%= urlString %>';baseUrls=window['baseUrls']||[];baseUrls[<%= mid %>]='<%= wFolder %><%= descriptor %>';</script>
 		<!-- WRS specific -->
-		<%
-			print('<script type="text/javascript"> window.widgetUrls=[]; window.widgetUrls[' + mid + '] = document.location.href;</script>');
-		%>
+		
 		<!-- -->
 		<!-- build:js dist/wrs-features.js -->
 		<% if (deps.features && deps.features.length) {
@@ -40,8 +38,256 @@
 <!-- endbuild -->
 	</head>
 	<body>
-	    <%= body %>
+		<%= body %>
 	</body>
+	<script  type="text/javascript">
+gadgets.util.registerOnLoadHandler(function init() {
+		 
+		 var params = gadgets.util.getUrlParameters();
+         params['show_tree'] = (/(\?|&)show_tree($|&)/g).test(location.href);
+			
+		String.prototype.endsWith = function (searchString, position) {
+            position = position || this.length;
+            position = position - searchString.length;
+            var lastIndex = this.lastIndexOf(searchString);
+            return lastIndex !== -1 && lastIndex === position;
+        };
+
+
+        function parseINIString(data){
+            var regex = {
+                section: /^\s*\[\s*([^\]]*)\s*\]\s*$/,
+                param: /^\s*([\w\.\-\_]+)\s*=\s*(.*?)\s*$/,
+                comment: /^\s*;.*$/
+            };
+            var value = {};
+            var lines = data.split(/\r\n|\r|\n/);
+            var section = null;
+            lines.forEach(function(line){
+                if(regex.comment.test(line)){
+                    return;
+                }else if(regex.param.test(line)){
+                    var match = line.match(regex.param);
+                    if(section){
+                        value[section][match[1]] = match[2];
+                    }else{
+                        value[match[1]] = match[2];
+                    }
+                }else if(regex.section.test(line)){
+                    var match = line.match(regex.section);
+                    value[match[1]] = {};
+                    section = match[1];
+                }else if(line.length == 0 && section){
+                    section = null;
+                };
+            });
+            return value;
+        }
+
+		var errors = [];
+		
+		function fileExistsCheck(path) {
+			
+			var res = null;
+			
+			$.ajax({
+				url: path,
+				async: false,
+				dataType: "script",
+				complete: function (obj) {
+					res = obj.status;
+				}
+			});
+			if (res == '404') {
+				errors.push(path + ' not exists')
+			}
+			
+			//return true;
+		}
+		
+		function notEmpty(str, p) {
+			if (!str || 0 === str.length) {
+				console.log();
+				errors.push(p + ' field empty')
+			} else {
+				console.log('ok');
+			}
+			return (!str || 0 === str.length);
+		}
+			
+		var valFields = {
+				"General" : ['file,widget'],
+				"item" : [
+					'script_path,name,width,height',
+					'name,file'
+				]
+			};
+		
+		var validateRules = {
+			'General': {
+				'file':   fileExistsCheck,
+				'widget': fileExistsCheck
+			},
+			'item': {
+				'script_path': fileExistsCheck,
+				'name':   notEmpty,
+				'width':  notEmpty,
+				'height': notEmpty,
+				'file':   notEmpty,
+			}
+		};
+		
+		function validateRender(itemType, item, iniPath) {
+			
+			itemType = (itmTp = itemType.match(/^item/)) ? itmTp[0] : itemType;
+			
+			var itpVal = valFields[itemType][0];
+			
+			if(itemType !== "General"){
+				if (item.hasOwnProperty('script')) {
+					item['script_path'] = iniPath+ '/' +item['script'];
+				}
+				
+				if (item.hasOwnProperty('name') && item.hasOwnProperty('file')) {
+					itpVal = valFields[itemType][1];
+				} 
+			}
+			
+			var validateEach = function (prps) {
+				prps.forEach(function(p){
+					if (item.hasOwnProperty(p)) {
+						validateRules[itemType][p](item[p], p);
+					} else {
+						errors.push(p + ' param required');
+					}
+				});
+			};
+			
+			var props = itpVal.split(',');
+			validateEach(props);
+			
+			return true;
+		}
+
+
+        function processRelativeWidgetPath(widgetPath) {
+            var l = document.createElement("a");
+            l.href = widgetPath;
+            return l.href;
+        }
+		
+        $(window).load(function() {
+            if (typeof params['script'] != "undefined" ) {
+				 
+						$.getScript(params['script']).then(function(){
+							
+							roox.renderScreenshot(window,1);
+						});
+					
+            } else if(params['show_tree']) {
+				$("<div id='tree_area'></div>").appendTo('body');
+				$("<div id='show_tree'></div>").appendTo('#tree_area');
+				$("<div id='errors'></div>").appendTo('#tree_area');
+                var widgetUrl = processRelativeWidgetPath(params['widget']);
+                var path = (widgetUrl.substring(0, widgetUrl.lastIndexOf('/')) || ".");
+                var name = widgetUrl.substring(0, widgetUrl.lastIndexOf('.xml'));
+                var fileName = widgetUrl.substring(widgetUrl.lastIndexOf('/')+1, widgetUrl.lastIndexOf('.xml'));
+
+                //detect our new file structure
+                if (name.toLowerCase().endsWith(fileName.toLowerCase() + '/' + fileName.toLowerCase())) {
+                    name = name + "/..";
+                }
+				
+                var out = "";
+                function recTree(iniPath){
+                    $.ajax({
+                        url: iniPath + "/render.ini",
+                        async: false,
+                        dataType: 'html',
+                        error: function(jqXHR, textStatus, errorThrown){
+                            console.log && console.log("error retrieving render.ini", iniPath + "/render.ini", textStatus, errorThrown);
+                        },
+                        success: function(data, textStatus, jqxhr) {
+                            if(data){
+                                var metadata = parseINIString(data);
+                                for(var item in metadata) {
+								
+									if (!validateRender(item, metadata[item], iniPath)) {
+										return false;
+									}
+								
+                                    if(item !== "General"){
+                                        if(metadata[item]['file']){
+                                            out += "<ul>"
+                                            out += "<li>" + metadata[item]['name'] + "</li>";
+                                            recTree(iniPath + "/" + metadata[item]['file']);
+                                            out += "</ul>"
+                                        } else if(metadata[item]['script']){
+                                            out += "<ul>"
+                                            out += [
+                                                "<li>",
+                                                "<a href='" + location.href + "&script=" + iniPath + "/" + metadata[item]['script'],"'",
+                                                " test_height='", (metadata[item]['height'] || metadata["General"]['height']),"'",
+                                                " test_width='", (metadata[item]['width'] || metadata["General"]['width']),"'",
+                                                " bgcolor='", (metadata[item]['bgcolor'] || metadata["General"]['bgcolor'] || ""),"'",
+                                                ">",
+                                                (metadata[item]['name'] || metadata["General"]['name']),
+                                                "</a>",
+                                                "</li>"
+                                            ].join("");
+                                            out += "</ul>"
+                                        }
+                                    } else if(metadata[item]['root_name']) {
+                                        out += "<h3>" + metadata[item]['root_name'] + "</h3>";
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                recTree(path +  "/screenshots");
+				if(params['show_tree']){
+					var errList = "";
+					if (errors.length) {
+						errList = "<ul>";
+						for (var e in errors) {
+							errList+= "<li><h3><font color='red'>"+errors[e]+"</font></h3></li>";
+						}
+						errList += "</ul>";
+					}
+					document.getElementById('errors').innerHTML = errList;
+					$(document.getElementById('errors')).css({
+						position: "relative",
+						height: "auto",
+						width: "100%",
+						overflow: "hidden"
+					});
+				}
+                document.getElementById('show_tree').innerHTML = out;
+                $(document.getElementById('show_tree')).css({
+                    position: "relative",
+                    height: "auto",
+                    width: "100%",
+                    top: "0",
+                    overflow: "hidden"
+                });
+
+                $('#show_tree a').click(function(){
+                    var url = $(this).attr('href');
+                    //IE8 not allow anything in name
+                    var name = $(this).text().replace(/[^a-z0-9]+/gi, "_");
+                    url += "&bgcolor="+encodeURIComponent($(this).attr('bgcolor'));
+                    var height = $(this).attr('test_height');
+                    var width = $(this).attr('test_width');
+                    popupWin = window.open(url, name, "location,width="+width+",height="+height+",top=0");
+                    popupWin.focus();
+                    return false;
+                })
+            }
+        });
+		}, 1);
+	</script>
 	<script>
         gadgets.util.runOnLoadHandlers(<%= mid %>);
     </script>
