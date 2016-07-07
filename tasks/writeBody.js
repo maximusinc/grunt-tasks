@@ -26,12 +26,12 @@ module.exports = function (grunt){
                         toBodyHtml: destPath + bodyHref
                     });
 
-                    inlineTemplate(grunt, {
-                        descriptorFrom: widgetFolder + widgetDescriptor,
-                        descriptorTo: destPath + widgetDescriptor,
-                        fromBodyHtml: destPath + config.body,
-                        toBodyHtml: destPath + bodyHref
-                    });
+                    // inlineTemplate(grunt, {
+                    //     descriptorFrom: widgetFolder + widgetDescriptor,
+                    //     descriptorTo: destPath + widgetDescriptor,
+                    //     fromBodyHtml: destPath + config.body,
+                    //     toBodyHtml: destPath + bodyHref
+                    // });
                     
                 } else {
                     // for dev - just copy i18n supported in debug=true mode
