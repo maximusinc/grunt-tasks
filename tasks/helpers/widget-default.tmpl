@@ -41,7 +41,75 @@
 		<%= body %>
 	</body>
 	<script  type="text/javascript">
-gadgets.util.registerOnLoadHandler(function init() {
+
+	var roox = roox || {};
+
+    roox.stubDate = function(global){
+        global.oldDate = global.Date;
+        global.Date = function () {
+            var args = arguments.length > 0 ? Array.prototype.slice.call(arguments) : [1293861600];
+            var argsParams = [];
+            for (var i = 0, j = args.length; i < j; i++){
+                argsParams.push(JSON.stringify(args[i]));
+            }
+            return new global.Function('return new oldDate(' + argsParams.join(',') + ');')();
+        };
+        global.Date.UTC = function () {
+            return global.oldDate.UTC.apply(global, arguments);
+        };
+        global.Date.now = function () {
+            return 1293861600;
+        };
+        global.Date.parse = function () {
+            return global.oldDate.parse.apply(global, arguments);
+        };
+    };
+
+    roox.disableAnimation = function(global){
+        global.$(['<style type="text/css">',
+            "* { ",
+            "-webkit-transition: none !important; ",
+            "-moz-transition: none !important; ",
+            "-o-transition: none !important; ",
+            "transition: none !important; ",
+            "animation-name: none !important; ",
+            /*CSS transitions*/
+            "-o-transition-property: none !important;",
+            "-moz-transition-property: none !important;",
+            "-ms-transition-property: none !important;",
+            "-webkit-transition-property: none !important;",
+            "transition-property: none !important;",
+            /*CSS animations*/
+            "-webkit-animation: none !important;",
+            "-moz-animation: none !important;",
+            "-o-animation: none !important;",
+            "-ms-animation: none !important;",
+            "animation: none !important;",
+            "} ",
+            "progress {",
+            "background-color: transparent !important; ",
+            "color: transparent !important; ",
+            "-webkit-appearance: none !important; ",
+            "-moz-appearance: none !important;  ",
+            "-ms-appearance: none !important; ",
+            "-o-appearance: none !important; ",
+            "appearance: none !important; ",
+            "} ",
+            "progress::-webkit-progress-bar-value, ",
+            "progress::-webkit-progress-value, ",
+            "progress::-moz-progress-bar {",
+            "background-color:transparent !important;",
+            "} ",
+            '</style>'
+        ].join("")
+        ).appendTo(global.$('head'));
+
+        if (global.$ && global.$.fx) {
+            global.$.fx.off = true;
+        }
+    };
+
+    gadgets.util.registerOnLoadHandler(function init() {
 		 
 		 var params = gadgets.util.getUrlParameters();
          params['show_tree'] = (/(\?|&)show_tree($|&)/g).test(location.href);
@@ -178,14 +246,14 @@ gadgets.util.registerOnLoadHandler(function init() {
 		
         $(window).load(function() {
             if (typeof params['script'] != "undefined" ) {
-				 
+
 						$.getScript(params['script']).then(function(){
-							
+
 							roox.renderScreenshot(window,1);
 						});
-					
+
             } else if(params['show_tree']) {
-				$("<div id='tree_area'></div>").appendTo('body');
+				$("<div id='tree_area' style='position: absolute;top: 0;left: 0;right: 0;margin-left: 30px;background-color: white;'></div>").appendTo('body');
 				$("<div id='show_tree'></div>").appendTo('#tree_area');
 				$("<div id='errors'></div>").appendTo('#tree_area');
                 var widgetUrl = processRelativeWidgetPath(params['widget']);
