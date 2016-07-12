@@ -253,7 +253,7 @@
 						});
 
             } else if(params['show_tree']) {
-				$("<div id='tree_area' style='position: absolute;top: 0;left: 0;right: 0;margin-left: 30px;background-color: white;'></div>").appendTo('body');
+				$("<div id='tree_area' style='position: absolute;top: 0;bottom:0;left: 0;right: 0;padding-left: 30px;background-color: white;'></div>").appendTo('body');
 				$("<div id='show_tree'></div>").appendTo('#tree_area');
 				$("<div id='errors'></div>").appendTo('#tree_area');
                 var widgetUrl = processRelativeWidgetPath(params['widget']);
