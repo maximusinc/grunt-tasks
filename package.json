@@ -1,6 +1,6 @@
 {
   "name": "rx-grunt-tasks",
-  "version": "0.9.12",
+  "version": "0.9.13",
   "repository": {
     "type": "git",
     "url": "git@github.com:maximusinc/grunt-tasks.git"
@@ -8,7 +8,7 @@
   "main": "init.js",
   "dependencies": {
     "clean-css": "1.1.7",
-    "dustjs-linkedin": "2.7.2",
+    "dustjs-linkedin": "2.3.4",
     "css-to-radium": "^1.0.3",
     "datauri": "~0.2.0",
     "htmlprocessor": "^0.2.3",
