@@ -2,7 +2,14 @@
 <html>
 	<head>
         <meta charset="UTF-8">
-		<script>widgetUrls=window['widgetUrls']||[];widgetUrls[<%= mid %>]='<%= wFolder %><%= descriptor %><%= urlString %>';baseUrls=window['baseUrls']||[];baseUrls[<%= mid %>]='<%= wFolder %><%= descriptor %>';</script>
+		<script>widgetUrls=window['widgetUrls']||[];widgetUrls[<%= mid %>]='<%= wFolder %><%= descriptor %><%= urlString %>';
+		if (!'<%= urlString %>') {
+		    widgetUrls[<%= mid %>] += "?";
+		} else {
+		    widgetUrls[<%= mid %>] += "&";
+		}
+		widgetUrls[<%= mid %>] += window.location.href.split('?')[1];
+		baseUrls=window['baseUrls']||[];baseUrls[<%= mid %>]='<%= wFolder %><%= descriptor %>';</script>
 		<!-- WRS specific -->
 		
 		<!-- -->
