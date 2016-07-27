@@ -13,7 +13,7 @@ module.exports = function(htmlBody, options, params) {
                 widgetFolder: options.widgetFolder
             },
             templateSettings: null,
-            includeBase: options.base || null,
+            includeBase: options.base || "",
             commentMarker: 'build',
             strip: false,
             recursive: false,
