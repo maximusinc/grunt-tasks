@@ -11,6 +11,9 @@ module.exports = function (grunt, docItem) {
             widgetFeatures = widgetFeatures.concat(widgetConfig.wrsDefaults);
         }
     docItem.childs.forEach(function (child) {
+        // skip text nodes
+        if (typeof child != "object") return;
+
         if (child.name === 'Require') {
             widgetFeatures.push(child.attrib.feature);
         } else if (child.name === 'Templates') {
@@ -43,6 +46,9 @@ module.exports = function (grunt, docItem) {
             }
 
             child.childs.forEach(function (child) {
+                // skip text nodes
+                if (typeof child != "object") return;
+
                 var conf = grunt.config('widget');
                 var fileContent = grunt.file.read( widgetFolder + child.attrib['src']);
                 var compiled = dust.compile(fileContent, child.attrib['name'], conf.mid)
@@ -51,6 +57,9 @@ module.exports = function (grunt, docItem) {
         } else if (child.name === 'Locales' && child.childs.length && !Object.keys(widgetLocales).length) {
             var locales = {};
             child.childs.forEach(function (child) {
+                // skip text nodes
+                if (typeof child != "object") return;
+
                 locales[child.attrib['lang']] = grunt.file.readJSON( widgetFolder + child.attrib['messages']);
             });
             widgetLocales.push(locales);

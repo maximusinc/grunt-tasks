@@ -8,6 +8,9 @@ module.exports = function (grunt, descriptor, target) {
     var doc = parseXML(descriptor),
         widgetConfig = grunt.config('widget');
     doc.childs.forEach(function (child) {
+        // skip text nodes
+        if (typeof child != "object") return;
+
         if (child.name === 'Content') {
             widgetBody = grunt.config('widget.body') || '';
             if (child.attrib && child.attrib.href) {
