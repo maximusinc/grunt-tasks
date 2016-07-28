@@ -50,7 +50,13 @@ module.exports = function (grunt, docItem) {
                 if (typeof child != "object") return;
 
                 var conf = grunt.config('widget');
-                var fileContent = grunt.file.read( widgetFolder + child.attrib['src']);
+                var fileContent = "";
+                if (child.attrib['src']) {
+                    fileContent = grunt.file.read( widgetFolder + child.attrib['src']);
+                } else if (child.childs.length) {
+                    fileContent = child.childs.join('');
+                }
+
                 var compiled = dust.compile(fileContent, child.attrib['name'], conf.mid)
                 widgetTemplates.push(compiled);
             });
