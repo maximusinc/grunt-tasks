@@ -19,7 +19,7 @@ module.exports = function (grunt, xmlPath, bundleName){
 		result.feature.gadget[0].script[0].$.src = bundleName;
 		result.feature.container[0].script[0].$.src = bundleName;
 		newXml = builder.buildObject(result);
-		grunt.file.write( backup , xml );
+		// grunt.file.write( backup , xml );
 		grunt.file.write( newFilename , newXml );
 		grunt.log.debug('Write backup and new XML content');
 	});
