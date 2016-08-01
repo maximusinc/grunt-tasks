@@ -3,7 +3,7 @@ module.exports = function (processor) {
     var env = processor.options.environment;
 	var baseWidgetFolder = processor.data && processor.data.widgetFolder;
     var prefix = grunt.config.get('destPath');
-	var includeBase = processor.options.includeBase;
+	var includeBase = processor.options.includeBase || "";
 
 	processor.registerBlockType('rxJSX', function (content, block, blockLine, blockContent) {
         grunt.log.debug("baseWidgetFolder " + baseWidgetFolder);
