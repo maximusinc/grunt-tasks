@@ -1,7 +1,6 @@
 module.exports = function (grunt, docItem) {
     var widgetConfig = grunt.config('widget'),
         widgetFolder = grunt.config.get('widgetFolder'),
-        dustjsFiles = grunt.config.get('dustjs.compile.files'),
         widgetFeatures = widgetConfig.deps.features || [],
         widgetTemplates = widgetConfig.deps.templates || [],
         widgetLocales = widgetConfig.deps.locales || [];
