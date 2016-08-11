@@ -3,6 +3,8 @@ module.exports = function (grunt, docItem, widgetFolder) {
         widgetFeatures = widgetConfig.deps.features || [],
         widgetTemplates = widgetConfig.deps.templates || [],
         widgetLocales = widgetConfig.deps.locales || [];
+
+    var dust = require('dustjs-linkedin');
     if (widgetConfig.wrsDefaults && widgetConfig.wrsDefaults.length) {
         widgetFeatures = widgetFeatures.concat(widgetConfig.wrsDefaults);
     }
