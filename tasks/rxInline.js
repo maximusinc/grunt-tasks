@@ -225,7 +225,7 @@ module.exports = function(grunt) {
 
 			return matchedWord.replace(imgUrl, newUrl);
 		});
-		fileContent = options.cssmin ? CleanCSS.process(fileContent) : fileContent;
+		fileContent = options.cssmin ? new CleanCSS().minify(fileContent).styles : fileContent;
 
 		return fileContent;
 	}
@@ -264,7 +264,7 @@ module.exports = function(grunt) {
 			grunt.log.debug( 'newUrl before replace: '+newUrl);
 			return matchedWord.replace(imgUrl, newUrl);
 		});
-		fileContent = options.cssmin ? CleanCSS.process(fileContent) : fileContent;
+		fileContent = options.cssmin ? new CleanCSS().minify(fileContent).styles : fileContent;
 
 		return fileContent;
 	}
