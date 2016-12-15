@@ -20,6 +20,12 @@ module.exports = {
         }
     },
     options: {
-        transform: [ ["babelify", {presets: ["es2015", "react"]}] ]
+        configure: function (bundler) {
+            bundler.plugin(require('tsify'));
+            bundler.transform(require('babelify'), {
+                presets: ['es2015', 'react'],
+                extensions: ['.ts', '.tsx', '.js']
+            });
+        }
     }
 };

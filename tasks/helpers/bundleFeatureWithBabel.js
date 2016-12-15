@@ -21,7 +21,13 @@ module.exports = function (grunt, path, featureXml2Json) {
 	files[ featurePath + pathModule.sep + BUNDLE_NAME ] = parseScriptItem(grunt, featurePath, featureXml2Json['feature']['gadget'][0]);
 	grunt.config.set('browserify.' + featureName + '.files', files);
     grunt.config.set('browserify.' + featureName + '.options', {
-		transform: [ ["babelify", {presets: presets}] ],
+        configure: function (bundler) {
+            bundler.plugin(require('tsify'));
+            bundler.transform(require('babelify'), {
+                presets: presets,
+                extensions: ['.ts', '.tsx', '.js']
+            });
+        },
 		debug: false
 	});
 	// uglify config
