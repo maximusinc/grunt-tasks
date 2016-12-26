@@ -22,10 +22,16 @@ module.exports = {
     options: {
         configure: function (bundler) {
             bundler.plugin(require('tsify'));
-            bundler.transform(require('babelify'), {
+            bundler.transform(require('svg-browserify'), {
+
+            }).transform(require('browserify-css'), {
+                extensions: ['.ts', '.tsx'],
+
+            }).transform(require('babelify'), {
                 presets: ['es2015', 'react'],
                 extensions: ['.ts', '.tsx', '.js']
             });
+
         }
     }
 };
