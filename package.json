@@ -1,6 +1,6 @@
 {
   "name": "rx-grunt-tasks",
-  "version": "0.9.25",
+  "version": "0.9.26",
   "repository": {
     "type": "git",
     "url": "git@github.com:maximusinc/grunt-tasks.git"
@@ -21,6 +21,8 @@
     "tsify": "^2.0.0",
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
-    "typings": "^1.5.0"
+    "typings": "^1.5.0",
+    "browserify-css": "^0.9.2",
+    "svg-browserify": "0.0.2"
   }
 }
