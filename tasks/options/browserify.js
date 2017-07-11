@@ -22,14 +22,21 @@ module.exports = {
     options: {
         configure: function (bundler) {
             bundler.plugin(require('tsify'));
+            var vueify = require('vueify');
+
             bundler.transform(require('svg-browserify'), {
 
             }).transform(require('browserify-css'), {
-                extensions: ['.ts', '.tsx'],
-
+                extensions: ['.ts', '.tsx']
             }).transform(require('babelify'), {
                 presets: ['es2015', 'react'],
+                plugins: [
+                    ["transform-object-rest-spread", { "useBuiltIns": true }],
+                    ["transform-class-properties", { "spec": true }]
+                ],
                 extensions: ['.ts', '.tsx', '.js']
+            }).transform(require('vueify'), {
+                extensions: ['.jsx', '.js']
             });
 
         }
