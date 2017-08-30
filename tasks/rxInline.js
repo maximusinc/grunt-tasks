@@ -160,9 +160,9 @@ module.exports = function(grunt) {
 
 			return ret;
 
-		}).replace(/<link.+?href=["']([^"']+?)["'].*?\/?>/g, function(matchedWord, src){
-			var ret = matchedWord;
-
+        }).replace(/<link.+?(?:rel=["']([^"']+?)["'].*)?(?:type=["']([^"']+?)["'].*)?.*href=["']([^"']+?)["'].*?\/?>/g, function(matchedWord, rel, type, src){
+        	var ret = matchedWord;
+        	//todo check other attributes
 			if(!isRemotePath(src) && src.indexOf(options.tag)!=-1){
 
 				var inlineFilePath = path.resolve( path.dirname(filepath), src ).replace(/\?.*$/, '');	// 将参数去掉
