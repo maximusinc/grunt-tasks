@@ -56,7 +56,7 @@ module.exports = function (grunt, docItem) {
                     fileContent = child.childs.join('');
                 }
 
-                var compiled = dust.compile(fileContent, child.attrib['name'], conf.mid)
+                var compiled = dust.compile(fileContent, child.attrib['name'], "__MODULE_ID__")
                 widgetTemplates.push(compiled);
             });
         } else if (child.name === 'Locales' && child.childs.length && !Object.keys(widgetLocales).length) {
