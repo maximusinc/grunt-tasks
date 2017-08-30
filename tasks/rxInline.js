@@ -163,7 +163,7 @@ module.exports = function(grunt) {
         }).replace(/<link.+?(?:rel=["']([^"']+?)["'].*)?(?:type=["']([^"']+?)["'].*)?.*href=["']([^"']+?)["'].*?\/?>/g, function(matchedWord, rel, type, src){
         	var ret = matchedWord;
         	//todo check other attributes
-			if(!isRemotePath(src) && src.indexOf(options.tag)!=-1){
+            if(!isRemotePath(src) && src.indexOf(options.tag)!=-1 && (rel != null && rel.toLowerCase() == "stylesheet")){
 
 				var inlineFilePath = path.resolve( path.dirname(filepath), src ).replace(/\?.*$/, '');	// 将参数去掉
 
