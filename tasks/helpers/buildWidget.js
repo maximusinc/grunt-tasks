@@ -18,7 +18,9 @@ module.exports = function (grunt, descriptor, target) {
                 widgetBody += grunt.file.read( widgetFolder + child.attrib.href);
             } else if (child.childs && child.childs.length > 0) {
                 //TODO investigate this case, what if there are many Content or href
-                // widgetBody += child.childs.join("");
+                if (target == "make") {
+                    widgetBody += child.childs.join("");
+                }
             } else {
                 grunt.log.errorlns('Widget Has no body, check .xml Content');
             }
