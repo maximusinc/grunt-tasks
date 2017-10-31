@@ -61,7 +61,7 @@ module.exports = function(htmlBody, options, params) {
         });
     }
     // prepend locales to widget html output
-    if (params.locales && params.locales[0]) {
+    if (params.locales && params.locales[0] && !options.skipLocaleInline) {
         processedBody = '<script type="text/javascript">com.rooxteam.i18n.setLocales(' + JSON.stringify(params.locales[0]) + ', "' + params.mid + '")</script>\r\n' + processedBody;
     }
 

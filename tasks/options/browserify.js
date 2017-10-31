@@ -32,6 +32,7 @@ module.exports = {
                 presets: ['es2015', 'react'],
                 plugins: [
                     ["transform-object-rest-spread", { "useBuiltIns": true }],
+                    ["transform-es2015-template-literals"],
                     ["transform-class-properties", { "spec": true }]
                 ],
                 extensions: ['.ts', '.tsx', '.js']
