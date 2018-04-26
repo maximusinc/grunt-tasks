@@ -149,7 +149,21 @@ module.exports = function(grunt) {
 
             if(!isRemotePath(src) && src.indexOf(options.tag)!=-1){
                 var inlineFilePath = path.resolve( path.dirname(filepath), src ).replace(/\?.*$/, '');	// 将参数去掉
-                var c = options.uglify ? UglifyJS.minify(inlineFilePath).code : grunt.file.read( inlineFilePath );
+
+                if (options.uglify) {
+                    var result = UglifyJS.minify(grunt.file.read( inlineFilePath ));
+
+                    if (result.error) {
+                        console.log(result.error); // runtime error, or `undefined` if no error
+                    }
+                    var c = result.code;
+                } else {
+                    var c = grunt.file.read( inlineFilePath );
+                }
+
+
+
+
                 if( grunt.file.exists(inlineFilePath) ){
                     ret = '<script type="text/javascript">\n' + c + '\n</script>';
                 }else{
