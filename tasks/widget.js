@@ -11,8 +11,14 @@ module.exports = function (grunt){
 		
 		if (typeof grunt.config.get('urlParams') != 'undefined') {
 			var connect = grunt.config.get('connect');
-			var widgetHost = connect.server.options.hostname;
-			var widgetPort = connect.server.options.port;
+			try {
+                var widgetHost = connect.server.options.hostname;
+                var widgetPort = connect.server.options.port;
+			} catch (e) {
+                var widgetHost = 'localhost';
+                var widgetPort = '9000';
+            }
+
 			var widgetFolder = grunt.config.get('widgetFolder');
 			var urlParams = grunt.config.get('urlParams');
 			var urlParamsArr = [];
